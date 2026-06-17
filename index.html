@@ -680,15 +680,25 @@
         const historicalEvents = events.filter(e => e.category !== 'family');
 
         // Calculate generation year ranges
+        // Each generation spans from its first birth to the first birth of the next generation
         const generationRanges = {};
         for (let i = 1; i <= 10; i++) {
             const genEvents = familyEvents.filter(e => e.title.includes(`Generation ${i}:`));
             if (genEvents.length > 0) {
                 const years = genEvents.map(e => e.year);
-                generationRanges[`Generation ${i}`] = {
-                    start: Math.min(...years),
-                    end: Math.max(...years) + 50 // Add buffer for generation lifespan
-                };
+                const start = Math.min(...years);
+
+                // End year = start of next generation (or 2070 for Gen 10)
+                let end = 2070;
+                if (i < 10) {
+                    const nextGenEvents = familyEvents.filter(e => e.title.includes(`Generation ${i + 1}:`));
+                    if (nextGenEvents.length > 0) {
+                        const nextGenYears = nextGenEvents.map(e => e.year);
+                        end = Math.min(...nextGenYears);
+                    }
+                }
+
+                generationRanges[`Generation ${i}`] = { start, end };
             }
         }
 
