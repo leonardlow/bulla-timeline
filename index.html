@@ -911,40 +911,34 @@
         // MOBILE: Render unified timeline
         function renderUnifiedTimeline() {
             const unifiedContent = document.getElementById('unifiedContent');
-            const generationMap = {};
 
-            // Group ALL events by generation
-            events.forEach(event => {
-                const genMatch = event.title.match(/Generation (\d+):/);
-                const generation = genMatch ? `Generation ${genMatch[1]}` : 'Other';
-                if (!generationMap[generation]) generationMap[generation] = [];
-                generationMap[generation].push(event);
-            });
-
-            const generationOrder = [];
+            // For each generation, include both family and historical events in that timespan
             for (let i = 1; i <= 10; i++) {
-                const gen = `Generation ${i}`;
-                if (generationMap[gen]) generationOrder.push(gen);
-            }
-            if (generationMap['Other']) generationOrder.push('Other');
+                const generation = `Generation ${i}`;
+                const yearRange = generationRanges[generation];
 
-            generationOrder.forEach(generation => {
+                if (!yearRange) continue;
+
                 const genSection = document.createElement('div');
                 genSection.className = 'generation-section';
 
                 const genHeader = document.createElement('div');
                 genHeader.className = 'gen-header collapsed';
-                const yearRange = generationRanges[generation];
-                const yearsText = yearRange ? ` (${yearRange.start}–${yearRange.end})` : '';
+                const yearsText = ` (${yearRange.start}–${yearRange.end})`;
                 genHeader.innerHTML = `<span class="gen-arrow">▶</span><span>${generation}${yearsText}</span>`;
 
                 const genContent = document.createElement('div');
                 genContent.className = 'gen-content collapsed';
 
-                // Sort events in this generation by year
-                const sortedEvents = [...generationMap[generation]].sort((a, b) => a.year - b.year);
+                // Get all events (family + historical) that fall within this generation's timespan
+                const genEvents = events.filter(event =>
+                    event.year >= yearRange.start && event.year <= yearRange.end
+                );
 
-                sortedEvents.forEach(event => {
+                // Sort by year
+                genEvents.sort((a, b) => a.year - b.year);
+
+                genEvents.forEach(event => {
                     const eventDiv = document.createElement('div');
                     eventDiv.className = `unified-event ${event.category}`;
 
@@ -968,7 +962,7 @@
                 genSection.appendChild(genHeader);
                 genSection.appendChild(genContent);
                 unifiedContent.appendChild(genSection);
-            });
+            }
         }
 
         // Initialize
