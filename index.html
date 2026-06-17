@@ -629,6 +629,22 @@
         const familyEvents = events.filter(e => e.category === 'family');
         const historicalEvents = events.filter(e => e.category !== 'family');
 
+        // Calculate generation year ranges
+        const generationRanges = {};
+        for (let i = 1; i <= 10; i++) {
+            const genEvents = familyEvents.filter(e => e.title.includes(`Generation ${i}:`));
+            if (genEvents.length > 0) {
+                const years = genEvents.map(e => e.year);
+                generationRanges[`Generation ${i}`] = {
+                    start: Math.min(...years),
+                    end: Math.max(...years) + 50 // Add buffer for generation lifespan
+                };
+            }
+        }
+
+        // Track expanded generations
+        const expandedGenerations = new Set();
+
         // Render family timeline on the left
         function renderFamilyTimeline() {
             const familyContent = document.getElementById('familyContent');
@@ -671,6 +687,16 @@
                 genHeader.addEventListener('click', function() {
                     genHeader.classList.toggle('collapsed');
                     genContent.classList.toggle('collapsed');
+
+                    // Track expanded/collapsed state
+                    if (genHeader.classList.contains('collapsed')) {
+                        expandedGenerations.delete(generation);
+                    } else {
+                        expandedGenerations.add(generation);
+                    }
+
+                    // Update history bar dots
+                    updateHistoryBarDots();
                 });
 
                 genSection.appendChild(genHeader);
@@ -689,8 +715,10 @@
 
                 const dot = document.createElement('div');
                 dot.className = `history-dot ${event.category}`;
+                dot.dataset.year = event.year;
                 dot.style.marginTop = `${percentFromTop}%`;
                 dot.title = `${event.year}: ${event.title}`;
+                dot.style.display = 'none'; // Hidden by default
 
                 dot.addEventListener('click', function() {
                     // Remove active class from all dots
@@ -715,9 +743,49 @@
             });
         }
 
+        // Update which dots are visible based on expanded generations
+        function updateHistoryBarDots() {
+            if (expandedGenerations.size === 0) {
+                // No generations expanded - hide all dots
+                document.querySelectorAll('.history-dot').forEach(dot => {
+                    dot.style.display = 'none';
+                });
+                document.getElementById('eventDetail').innerHTML = 'Expand a generation to see historical context';
+                document.getElementById('eventDetail').classList.add('empty');
+                return;
+            }
+
+            // Find year range of all expanded generations
+            let minExpandedYear = Infinity;
+            let maxExpandedYear = -Infinity;
+
+            expandedGenerations.forEach(gen => {
+                if (generationRanges[gen]) {
+                    minExpandedYear = Math.min(minExpandedYear, generationRanges[gen].start);
+                    maxExpandedYear = Math.max(maxExpandedYear, generationRanges[gen].end);
+                }
+            });
+
+            // Show/hide dots based on whether they fall in expanded generation range
+            document.querySelectorAll('.history-dot').forEach(dot => {
+                const year = parseInt(dot.dataset.year);
+                if (year >= minExpandedYear && year <= maxExpandedYear) {
+                    dot.style.display = 'block';
+                } else {
+                    dot.style.display = 'none';
+                    if (dot.classList.contains('active')) {
+                        dot.classList.remove('active');
+                        document.getElementById('eventDetail').innerHTML = 'Click a dot to explore historical moments';
+                        document.getElementById('eventDetail').classList.add('empty');
+                    }
+                }
+            });
+        }
+
         // Initialize
         renderFamilyTimeline();
         renderHistoryBar();
+        updateHistoryBarDots(); // Start with all dots hidden
     </script>
 </body>
 </html>
