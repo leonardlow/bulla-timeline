@@ -87,6 +87,54 @@
             padding: 20px 0;
         }
 
+        .generation-section {
+            margin-bottom: 30px;
+        }
+
+        .gen-header {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #00d4ff;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s ease;
+            border-radius: 5px;
+        }
+
+        .gen-header:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .gen-arrow {
+            font-size: 1em;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            width: 16px;
+            text-align: center;
+        }
+
+        .gen-header.collapsed .gen-arrow {
+            transform: rotate(-90deg);
+        }
+
+        .gen-content {
+            max-height: 5000px;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.4s ease;
+            opacity: 1;
+        }
+
+        .gen-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+
         .timeline::before {
             content: '';
             position: absolute;
@@ -584,50 +632,95 @@
         // Sort events by year
         events.sort((a, b) => a.year - b.year);
 
-        events.forEach((event, index) => {
-            const eventDiv = document.createElement('div');
-            eventDiv.className = 'timeline-event';
+        // Group events by generation
+        const generationMap = {};
+        events.forEach(event => {
+            const genMatch = event.title.match(/Generation (\d+):/);
+            const generation = genMatch ? `Generation ${genMatch[1]}` : 'Other Events';
+            if (!generationMap[generation]) {
+                generationMap[generation] = [];
+            }
+            generationMap[generation].push(event);
+        });
 
-            const contentDiv = document.createElement('div');
-            contentDiv.className = `timeline-content ${event.category}`;
+        // Create generation sections
+        const generationOrder = [];
+        for (let i = 1; i <= 10; i++) {
+            const gen = `Generation ${i}`;
+            if (generationMap[gen]) generationOrder.push(gen);
+        }
+        if (generationMap['Other Events']) generationOrder.push('Other Events');
 
-            const dotDiv = document.createElement('div');
-            dotDiv.className = `timeline-dot ${event.category}`;
+        generationOrder.forEach(generation => {
+            const genEvents = generationMap[generation];
 
-            const yearDiv = document.createElement('div');
-            yearDiv.className = 'year';
-            yearDiv.textContent = event.year;
+            // Create generation section
+            const genSection = document.createElement('div');
+            genSection.className = 'generation-section';
 
-            const titleDiv = document.createElement('div');
-            titleDiv.className = 'event-title';
-            titleDiv.textContent = event.title;
+            // Create generation header
+            const genHeader = document.createElement('div');
+            genHeader.className = 'gen-header collapsed';
+            genHeader.innerHTML = `<span class="gen-arrow">▶</span><span>${generation}</span>`;
 
-            const descDiv = document.createElement('div');
-            descDiv.className = 'event-description';
-            descDiv.textContent = event.description;
+            // Create content container
+            const genContent = document.createElement('div');
+            genContent.className = 'gen-content collapsed';
 
-            const categoryLabel = document.createElement('span');
-            categoryLabel.className = `category-label ${event.category}`;
-            categoryLabel.textContent = event.category;
+            // Add events to content
+            genEvents.forEach((event, index) => {
+                const eventDiv = document.createElement('div');
+                eventDiv.className = 'timeline-event';
 
-            contentDiv.appendChild(dotDiv);
-            contentDiv.appendChild(yearDiv);
-            contentDiv.appendChild(titleDiv);
-            contentDiv.appendChild(descDiv);
-            contentDiv.appendChild(categoryLabel);
+                const contentDiv = document.createElement('div');
+                contentDiv.className = `timeline-content ${event.category}`;
 
-            eventDiv.appendChild(contentDiv);
-            timelineContainer.appendChild(eventDiv);
+                const dotDiv = document.createElement('div');
+                dotDiv.className = `timeline-dot ${event.category}`;
 
-            // Add click handler to toggle description
-            contentDiv.addEventListener('click', function() {
-                // Close other open events
-                document.querySelectorAll('.timeline-content.active').forEach(el => {
-                    if (el !== this) el.classList.remove('active');
+                const yearDiv = document.createElement('div');
+                yearDiv.className = 'year';
+                yearDiv.textContent = event.year;
+
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'event-title';
+                titleDiv.textContent = event.title;
+
+                const descDiv = document.createElement('div');
+                descDiv.className = 'event-description';
+                descDiv.textContent = event.description;
+
+                const categoryLabel = document.createElement('span');
+                categoryLabel.className = `category-label ${event.category}`;
+                categoryLabel.textContent = event.category;
+
+                contentDiv.appendChild(dotDiv);
+                contentDiv.appendChild(yearDiv);
+                contentDiv.appendChild(titleDiv);
+                contentDiv.appendChild(descDiv);
+                contentDiv.appendChild(categoryLabel);
+
+                eventDiv.appendChild(contentDiv);
+                genContent.appendChild(eventDiv);
+
+                // Add click handler to toggle description
+                contentDiv.addEventListener('click', function() {
+                    document.querySelectorAll('.timeline-content.active').forEach(el => {
+                        if (el !== this) el.classList.remove('active');
+                    });
+                    this.classList.toggle('active');
                 });
-                // Toggle current event
-                this.classList.toggle('active');
             });
+
+            // Add click handler to generation header
+            genHeader.addEventListener('click', function() {
+                genHeader.classList.toggle('collapsed');
+                genContent.classList.toggle('collapsed');
+            });
+
+            genSection.appendChild(genHeader);
+            genSection.appendChild(genContent);
+            timelineContainer.appendChild(genSection);
         });
     </script>
 </body>
