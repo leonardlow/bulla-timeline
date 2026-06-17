@@ -143,6 +143,14 @@
             color: #ffffff;
             margin-top: 3px;
             font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .family-event-detail {
+            color: #b0b0b0;
+            margin-top: 5px;
+            font-size: 0.8em;
+            line-height: 1.4;
         }
 
         /* CENTER: History Bar */
@@ -677,9 +685,11 @@
                 generationMap[generation].forEach(event => {
                     const eventDiv = document.createElement('div');
                     eventDiv.className = 'family-event';
+                    const title = event.title.replace(/^Generation \d+: /, '');
                     eventDiv.innerHTML = `
                         <div class="family-event-year">${event.year}</div>
-                        <div class="family-event-title">${event.title.replace(/^Generation \d+: /, '')}</div>
+                        <div class="family-event-title">${title}</div>
+                        <div class="family-event-detail">${event.description}</div>
                     `;
                     genContent.appendChild(eventDiv);
                 });
