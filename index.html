@@ -51,6 +51,7 @@
             line-height: 1.6;
         }
 
+        /* DESKTOP: Three-column layout */
         .main-layout {
             display: grid;
             grid-template-columns: 1fr 80px 1fr;
@@ -58,8 +59,8 @@
             min-height: 800px;
         }
 
-        /* LEFT: Family Timeline */
-        .family-timeline {
+        .family-timeline,
+        .history-detail {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(0, 212, 255, 0.2);
             border-radius: 10px;
@@ -68,7 +69,26 @@
             max-height: 900px;
         }
 
-        .family-timeline h2 {
+        .family-timeline h2,
+        .history-detail h2 {
+            font-size: 1.1em;
+            color: #00d4ff;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        /* MOBILE: Unified timeline layout */
+        .unified-timeline {
+            display: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .unified-timeline h2 {
             font-size: 1.1em;
             color: #00d4ff;
             margin-bottom: 20px;
@@ -124,36 +144,71 @@
             opacity: 0;
         }
 
-        .family-event {
-            background: rgba(255, 107, 107, 0.08);
-            border-left: 3px solid #ff6b6b;
-            border-radius: 5px;
+        /* Unified timeline event */
+        .unified-event {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
             padding: 12px;
-            margin-bottom: 10px;
-            font-size: 0.9em;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid;
+            border-radius: 5px;
+            transition: all 0.3s ease;
         }
 
-        .family-event-year {
+        .unified-event:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+
+        .unified-event-year {
+            min-width: 60px;
             color: #00d4ff;
             font-weight: bold;
             font-size: 0.95em;
         }
 
-        .family-event-title {
-            color: #ffffff;
-            margin-top: 3px;
-            font-size: 0.85em;
-            font-weight: 600;
+        .unified-event-content {
+            flex: 1;
         }
 
-        .family-event-detail {
+        .unified-event-title {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-bottom: 3px;
+        }
+
+        .unified-event-detail {
             color: #b0b0b0;
-            margin-top: 5px;
             font-size: 0.8em;
             line-height: 1.4;
+            margin-bottom: 5px;
         }
 
-        /* CENTER: History Bar */
+        .event-badge {
+            display: inline-block;
+            font-size: 0.65em;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .event-badge.family { background: rgba(255, 107, 107, 0.3); color: #ff6b6b; }
+        .event-badge.hawaiian { background: rgba(78, 205, 196, 0.3); color: #4ecdc4; }
+        .event-badge.american { background: rgba(255, 217, 61, 0.3); color: #ffd93d; }
+        .event-badge.european { background: rgba(168, 230, 207, 0.3); color: #a8e6cf; }
+        .event-badge.sports { background: rgba(255, 140, 148, 0.3); color: #ff8c94; }
+
+        .unified-event.family { border-left-color: #ff6b6b; }
+        .unified-event.hawaiian { border-left-color: #4ecdc4; }
+        .unified-event.american { border-left-color: #ffd93d; }
+        .unified-event.european { border-left-color: #a8e6cf; }
+        .unified-event.sports { border-left-color: #ff8c94; }
+
+        /* Desktop three-column elements */
         .history-bar {
             position: relative;
             background: rgba(255, 255, 255, 0.02);
@@ -213,28 +268,6 @@
             transform: translateX(-50%) scale(1.5);
             filter: brightness(1.3);
             box-shadow: 0 0 15px currentColor;
-        }
-
-        /* RIGHT: Historical Detail Panel */
-        .history-detail {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            border-radius: 10px;
-            padding: 30px;
-            overflow-y: auto;
-            max-height: 900px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-
-        .history-detail h2 {
-            font-size: 1.1em;
-            color: #00d4ff;
-            margin-bottom: 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
-            padding-bottom: 10px;
         }
 
         .event-display {
@@ -299,19 +332,60 @@
             color: #4ecdc4;
         }
 
-        @media (max-width: 1200px) {
+        footer a {
+            color: #4ecdc4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* RESPONSIVE BREAKPOINT */
+        @media (max-width: 768px) {
+            header {
+                padding: 20px 15px;
+                margin-bottom: 30px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .tagline {
+                font-size: 0.85em;
+            }
+
+            /* Hide desktop layout */
             .main-layout {
-                grid-template-columns: 1fr;
-                gap: 30px;
+                display: none;
             }
 
-            .family-timeline,
-            .history-detail {
-                max-height: none;
+            /* Show mobile unified timeline */
+            .unified-timeline {
+                display: block;
+                padding: 15px;
             }
 
-            .history-bar {
-                height: 300px;
+            .gen-header {
+                font-size: 0.95em;
+                padding: 8px 10px;
+            }
+
+            .unified-event {
+                gap: 10px;
+                padding: 10px;
+                margin-bottom: 12px;
+            }
+
+            .unified-event-year {
+                min-width: 50px;
+                font-size: 0.9em;
+            }
+
+            .unified-event-title {
+                font-size: 0.85em;
+            }
+
+            .unified-event-detail {
+                font-size: 0.75em;
             }
         }
     </style>
@@ -323,24 +397,24 @@
             <p class="subtitle">A Place in History</p>
             <p class="tagline">
                 Explore your family's 255-year journey alongside the major historical moments that shaped the world.
-                Click the dots to discover what was happening in history when your family milestones occurred.
             </p>
         </header>
 
-        <div class="main-layout">
+        <!-- DESKTOP: Three-column layout -->
+        <div class="main-layout" id="desktopLayout">
             <!-- LEFT: Family Timeline -->
             <div class="family-timeline" id="familyTimeline">
                 <h2>Your Family Story</h2>
                 <div id="familyContent"></div>
             </div>
 
-            <!-- CENTER: History Bar with Dots -->
+            <!-- CENTER: History Bar -->
             <div class="history-bar">
                 <div class="timeline-line"></div>
                 <div class="dots-container" id="dotsContainer"></div>
             </div>
 
-            <!-- RIGHT: Historical Detail Panel -->
+            <!-- RIGHT: Historical Detail -->
             <div class="history-detail">
                 <h2>Historical Context</h2>
                 <div id="eventDetail" class="event-display empty">
@@ -349,10 +423,14 @@
             </div>
         </div>
 
+        <!-- MOBILE: Unified timeline -->
+        <div class="unified-timeline" id="unifiedTimeline">
+            <h2>Family & History Timeline</h2>
+            <div id="unifiedContent"></div>
+        </div>
+
         <footer>
-            <p>
-                <a href="family-tree.html" style="color: #4ecdc4; text-decoration: none; font-weight: 600;">View the Family Tree →</a>
-            </p>
+            <a href="family-tree.html">View the Family Tree →</a>
             <p class="footer-message">
                 "Although our lifetime is but a blink in the grand scheme of things,
                 our family line has a place in this world." — For Kristine Nani, Alissa Alohilani, Brennan Keola, and Levi Laakea
@@ -563,7 +641,7 @@
             {
                 year: 1991,
                 title: "World Wide Web Goes Public",
-                description: "The World Wide Web, invented by Tim Berners-Lee, becomes available to the public. The internet era begins, setting the stage for a digital revolution that will transform communication, commerce, and society.",
+                description: "The World Wide Web, invented by Tim Berners-Lee, becomes available to the public. The internet era begins, setting the stage for a digital revolution.",
                 category: "american"
             },
             {
@@ -587,7 +665,7 @@
             {
                 year: 2004,
                 title: "Facebook Launches",
-                description: "Mark Zuckerberg launches Facebook from his Harvard dorm room. What begins as a college social network will grow into a global platform with billions of users, fundamentally changing how people connect and share information.",
+                description: "Mark Zuckerberg launches Facebook from his Harvard dorm room. What begins as a college social network will grow into a global platform with billions of users.",
                 category: "american"
             },
             {
@@ -617,26 +695,14 @@
             {
                 year: 2010,
                 title: "Instagram Launches",
-                description: "Instagram is founded, introducing photo-sharing and visual storytelling to social media. Within months, it becomes a cultural phenomenon with millions of users sharing their lives through images.",
+                description: "Instagram is founded, introducing photo-sharing and visual storytelling to social media. Within months, it becomes a cultural phenomenon with millions of users.",
                 category: "american"
             },
             {
                 year: 2011,
                 title: "Generation 10: Levi Laakea is Born",
-                description: "On February 15, 2011, Levi Laakea Leen Kamahao Holmbeck Low (Kane) is born to Leonard Low and Halani Holmbeck. He is the first of the tenth generation, born into a world transformed by social media and smartphones.",
+                description: "On February 15, 2011, Levi Laakea Leen Kamahao Holmbeck Low (Kane) is born to Leonard Low and Halani Holmbeck. He is the first of the tenth generation, born into a world transformed by social media.",
                 category: "family"
-            },
-            {
-                year: 2016,
-                title: "Generation 9: Leonard Low Marries Halani Holmbeck",
-                description: "On February 5, 2016, Leonard Low marries Halani Holmbeck in Honolulu. Together they bring Generation 10 under the Low family name. The year TikTok's parent company ByteDance is founded, beginning another digital revolution.",
-                category: "family"
-            },
-            {
-                year: 2020,
-                title: "TikTok Becomes Mainstream",
-                description: "TikTok, the short-form video platform, explodes in popularity globally, especially among Gen Z and Gen Alpha. It becomes one of the most influential platforms for culture, music, and social movements.",
-                category: "american"
             },
             {
                 year: 2014,
@@ -664,8 +730,14 @@
             },
             {
                 year: 2020,
+                title: "TikTok Becomes Mainstream",
+                description: "TikTok, the short-form video platform, explodes in popularity globally, especially among Gen Z. It becomes one of the most influential platforms for culture, music, and social movements.",
+                category: "american"
+            },
+            {
+                year: 2020,
                 title: "Generation 10: Brennan Keola is Adopted",
-                description: "On February 26, 2020, Brennan Keola Barboza-Low is formally adopted by Leonard Low. He now officially bears the Low family name.",
+                description: "On February 26, 2020, Brennan Keola Barboza-Low is formally adopted by Leonard Low. He now officially bears the Low family name alongside his three siblings.",
                 category: "family"
             }
         ];
@@ -680,7 +752,6 @@
         const historicalEvents = events.filter(e => e.category !== 'family');
 
         // Calculate generation year ranges
-        // Each generation spans from its first birth to the first birth of the next generation
         const generationRanges = {};
         for (let i = 1; i <= 10; i++) {
             const genEvents = familyEvents.filter(e => e.title.includes(`Generation ${i}:`));
@@ -688,7 +759,6 @@
                 const years = genEvents.map(e => e.year);
                 const start = Math.min(...years);
 
-                // End year = start of next generation (or 2070 for Gen 10)
                 let end = 2070;
                 if (i < 10) {
                     const nextGenEvents = familyEvents.filter(e => e.title.includes(`Generation ${i + 1}:`));
@@ -705,7 +775,7 @@
         // Track expanded generations
         const expandedGenerations = new Set();
 
-        // Render family timeline on the left
+        // DESKTOP: Render family timeline
         function renderFamilyTimeline() {
             const familyContent = document.getElementById('familyContent');
             const generationMap = {};
@@ -752,14 +822,12 @@
                     genHeader.classList.toggle('collapsed');
                     genContent.classList.toggle('collapsed');
 
-                    // Track expanded/collapsed state
                     if (genHeader.classList.contains('collapsed')) {
                         expandedGenerations.delete(generation);
                     } else {
                         expandedGenerations.add(generation);
                     }
 
-                    // Update history bar dots
                     updateHistoryBarDots();
                 });
 
@@ -769,7 +837,7 @@
             });
         }
 
-        // Render dots on the history bar
+        // DESKTOP: Render history bar dots
         function renderHistoryBar() {
             const dotsContainer = document.getElementById('dotsContainer');
             const eventDetail = document.getElementById('eventDetail');
@@ -782,15 +850,12 @@
                 dot.dataset.year = event.year;
                 dot.style.marginTop = `${percentFromTop}%`;
                 dot.title = `${event.year}: ${event.title}`;
-                dot.style.display = 'none'; // Hidden by default
+                dot.style.display = 'none';
 
                 dot.addEventListener('click', function() {
-                    // Remove active class from all dots
                     document.querySelectorAll('.history-dot.active').forEach(d => d.classList.remove('active'));
-                    // Add active class to clicked dot
                     dot.classList.add('active');
 
-                    // Update event detail panel
                     eventDetail.innerHTML = `
                         <div class="event-year">${event.year}</div>
                         <div class="event-title">${event.title}</div>
@@ -799,7 +864,6 @@
                     `;
                     eventDetail.classList.remove('empty');
 
-                    // Scroll to top of detail panel
                     document.querySelector('.history-detail').scrollTop = 0;
                 });
 
@@ -807,10 +871,9 @@
             });
         }
 
-        // Update which dots are visible based on expanded generations
+        // DESKTOP: Update dots visibility
         function updateHistoryBarDots() {
             if (expandedGenerations.size === 0) {
-                // No generations expanded - hide all dots
                 document.querySelectorAll('.history-dot').forEach(dot => {
                     dot.style.display = 'none';
                 });
@@ -819,7 +882,6 @@
                 return;
             }
 
-            // Find year range of all expanded generations
             let minExpandedYear = Infinity;
             let maxExpandedYear = -Infinity;
 
@@ -830,7 +892,6 @@
                 }
             });
 
-            // Show/hide dots based on whether they fall in expanded generation range
             document.querySelectorAll('.history-dot').forEach(dot => {
                 const year = parseInt(dot.dataset.year);
                 if (year >= minExpandedYear && year <= maxExpandedYear) {
@@ -846,10 +907,73 @@
             });
         }
 
+        // MOBILE: Render unified timeline
+        function renderUnifiedTimeline() {
+            const unifiedContent = document.getElementById('unifiedContent');
+            const generationMap = {};
+
+            // Group ALL events by generation
+            events.forEach(event => {
+                const genMatch = event.title.match(/Generation (\d+):/);
+                const generation = genMatch ? `Generation ${genMatch[1]}` : 'Other';
+                if (!generationMap[generation]) generationMap[generation] = [];
+                generationMap[generation].push(event);
+            });
+
+            const generationOrder = [];
+            for (let i = 1; i <= 10; i++) {
+                const gen = `Generation ${i}`;
+                if (generationMap[gen]) generationOrder.push(gen);
+            }
+
+            generationOrder.forEach(generation => {
+                const genSection = document.createElement('div');
+                genSection.className = 'generation-section';
+
+                const genHeader = document.createElement('div');
+                genHeader.className = 'gen-header collapsed';
+                const yearRange = generationRanges[generation];
+                const yearsText = yearRange ? ` (${yearRange.start}–${yearRange.end})` : '';
+                genHeader.innerHTML = `<span class="gen-arrow">▶</span><span>${generation}${yearsText}</span>`;
+
+                const genContent = document.createElement('div');
+                genContent.className = 'gen-content collapsed';
+
+                // Sort events in this generation by year
+                const sortedEvents = [...generationMap[generation]].sort((a, b) => a.year - b.year);
+
+                sortedEvents.forEach(event => {
+                    const eventDiv = document.createElement('div');
+                    eventDiv.className = `unified-event ${event.category}`;
+
+                    const title = event.title.replace(/^Generation \d+: /, '');
+                    eventDiv.innerHTML = `
+                        <div class="unified-event-year">${event.year}</div>
+                        <div class="unified-event-content">
+                            <div class="unified-event-title">${title}</div>
+                            <div class="unified-event-detail">${event.description}</div>
+                            <span class="event-badge ${event.category}">${event.category}</span>
+                        </div>
+                    `;
+                    genContent.appendChild(eventDiv);
+                });
+
+                genHeader.addEventListener('click', function() {
+                    genHeader.classList.toggle('collapsed');
+                    genContent.classList.toggle('collapsed');
+                });
+
+                genSection.appendChild(genHeader);
+                genSection.appendChild(genContent);
+                unifiedContent.appendChild(genSection);
+            });
+        }
+
         // Initialize
         renderFamilyTimeline();
         renderHistoryBar();
-        updateHistoryBarDots(); // Start with all dots hidden
+        updateHistoryBarDots();
+        renderUnifiedTimeline();
     </script>
 </body>
 </html>
