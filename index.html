@@ -20,71 +20,61 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         header {
             text-align: center;
             margin-bottom: 50px;
-            padding: 40px 20px;
+            padding: 30px 20px;
         }
 
         h1 {
-            font-size: 2.5em;
+            font-size: 2.2em;
             color: #00d4ff;
             margin-bottom: 10px;
             text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
         }
 
         .subtitle {
-            font-size: 1.2em;
-            color: #b0b0b0;
-            font-style: italic;
+            font-size: 1em;
+            color: #a0a0a0;
             margin-bottom: 20px;
         }
 
         .tagline {
-            font-size: 1em;
+            font-size: 0.9em;
             color: #a0a0a0;
             max-width: 600px;
-            margin: 20px auto;
+            margin: 15px auto;
             line-height: 1.6;
         }
 
-        .legend {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 40px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 80px 1fr;
+            gap: 20px;
+            min-height: 800px;
+        }
+
+        /* LEFT: Family Timeline */
+        .family-timeline {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(0, 212, 255, 0.2);
             border-radius: 10px;
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 900px;
         }
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9em;
-        }
-
-        .legend-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-        }
-
-        .dot-family { background-color: #ff6b6b; }
-        .dot-hawaiian { background-color: #4ecdc4; }
-        .dot-american { background-color: #ffd93d; }
-        .dot-european { background-color: #a8e6cf; }
-        .dot-sports { background-color: #ff8c94; }
-
-        .timeline {
-            position: relative;
-            padding: 20px 0;
+        .family-timeline h2 {
+            font-size: 1.1em;
+            color: #00d4ff;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+            padding-bottom: 10px;
         }
 
         .generation-section {
@@ -92,17 +82,17 @@
         }
 
         .gen-header {
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: bold;
             color: #00d4ff;
-            padding: 12px 15px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
             cursor: pointer;
             user-select: none;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             transition: background 0.2s ease;
             border-radius: 5px;
         }
@@ -112,11 +102,10 @@
         }
 
         .gen-arrow {
-            font-size: 1em;
+            font-size: 0.9em;
             transition: transform 0.3s ease;
             display: inline-block;
-            width: 16px;
-            text-align: center;
+            width: 14px;
         }
 
         .gen-header.collapsed .gen-arrow {
@@ -135,174 +124,187 @@
             opacity: 0;
         }
 
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: calc(120px + 15px);
-            width: 3px;
-            height: 100%;
-            background: linear-gradient(to bottom, #00d4ff, #ff6b6b, #4ecdc4);
-            top: 0;
+        .family-event {
+            background: rgba(255, 107, 107, 0.08);
+            border-left: 3px solid #ff6b6b;
+            border-radius: 5px;
+            padding: 12px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
         }
 
-        @media (max-width: 768px) {
-            .timeline::before {
-                left: calc(80px + 10px);
-            }
+        .family-event-year {
+            color: #00d4ff;
+            font-weight: bold;
+            font-size: 0.95em;
         }
 
-        .timeline-event {
-            margin-bottom: 40px;
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: 30px;
-            align-items: flex-start;
-            opacity: 0;
-            animation: fadeIn 0.6s ease-in-out forwards;
+        .family-event-title {
+            color: #ffffff;
+            margin-top: 3px;
+            font-size: 0.85em;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .timeline-event:nth-child(1) { animation-delay: 0.1s; }
-        .timeline-event:nth-child(2) { animation-delay: 0.2s; }
-        .timeline-event:nth-child(3) { animation-delay: 0.3s; }
-        .timeline-event:nth-child(n+4) { animation-delay: 0.4s; }
-
-        .timeline-year {
-            text-align: right;
-            padding-right: 30px;
+        /* CENTER: History Bar */
+        .history-bar {
             position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .timeline-year::after {
-            content: '';
+        .timeline-line {
             position: absolute;
-            right: -15px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            border: 3px solid;
+            width: 3px;
+            height: calc(100% - 40px);
+            background: linear-gradient(to bottom, #00d4ff, #ff6b6b, #4ecdc4);
+            left: 50%;
+            transform: translateX(-50%);
+            top: 20px;
+        }
+
+        .dots-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px 0;
             z-index: 10;
         }
 
-        .timeline-content {
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            border-left: 3px solid;
+        .history-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
             cursor: pointer;
             transition: all 0.3s ease;
+            border: 2px solid;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        .timeline-content:hover {
-            background: rgba(0, 212, 255, 0.1);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        .history-dot:hover {
+            transform: translateX(-50%) scale(1.3);
+            filter: brightness(1.2);
         }
 
-        .timeline-dot {
-            display: none;
+        .history-dot.family { background: #ff6b6b; border-color: #ff6b6b; }
+        .history-dot.hawaiian { background: #4ecdc4; border-color: #4ecdc4; }
+        .history-dot.american { background: #ffd93d; border-color: #ffd93d; }
+        .history-dot.european { background: #a8e6cf; border-color: #a8e6cf; }
+        .history-dot.sports { background: #ff8c94; border-color: #ff8c94; }
+
+        .history-dot.active {
+            transform: translateX(-50%) scale(1.5);
+            filter: brightness(1.3);
+            box-shadow: 0 0 15px currentColor;
         }
 
-        @media (max-width: 768px) {
-            .timeline-event {
-                grid-template-columns: 80px 1fr;
-                gap: 20px;
-            }
-
-            .timeline-year {
-                padding-right: 20px;
-            }
-
-            .timeline-year::after {
-                right: -10px;
-            }
+        /* RIGHT: Historical Detail Panel */
+        .history-detail {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 900px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
 
-        .timeline-content.family { border-left-color: #ff6b6b; }
-        .timeline-content.hawaiian { border-left-color: #4ecdc4; }
-        .timeline-content.american { border-left-color: #ffd93d; }
-        .timeline-content.european { border-left-color: #a8e6cf; }
-        .timeline-content.sports { border-left-color: #ff8c94; }
-
-        .timeline-dot.family { border-color: #ff6b6b; background: #ff6b6b; }
-        .timeline-dot.hawaiian { border-color: #4ecdc4; background: #4ecdc4; }
-        .timeline-dot.american { border-color: #ffd93d; background: #ffd93d; }
-        .timeline-dot.european { border-color: #a8e6cf; background: #a8e6cf; }
-        .timeline-dot.sports { border-color: #ff8c94; background: #ff8c94; }
-
-        .year {
-            font-size: 1.8em;
-            font-weight: bold;
+        .history-detail h2 {
+            font-size: 1.1em;
             color: #00d4ff;
-            margin-bottom: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .event-display {
+            text-align: center;
+        }
+
+        .event-display.empty {
+            color: #a0a0a0;
+            margin-top: 40px;
+            font-style: italic;
+        }
+
+        .event-year {
+            font-size: 2em;
+            color: #00d4ff;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
 
         .event-title {
             font-size: 1.2em;
-            font-weight: 600;
-            margin-bottom: 8px;
             color: #ffffff;
+            margin-bottom: 15px;
+            font-weight: 600;
         }
 
         .event-description {
             font-size: 0.95em;
-            line-height: 1.5;
             color: #d0d0d0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
+            line-height: 1.6;
+            margin-bottom: 15px;
         }
 
-        .timeline-content.active .event-description {
-            max-height: 200px;
-        }
-
-        .category-label {
+        .event-category {
             display: inline-block;
             font-size: 0.75em;
-            padding: 4px 8px;
+            padding: 6px 12px;
             border-radius: 4px;
-            margin-top: 8px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .category-label.family { background: rgba(255, 107, 107, 0.3); color: #ff6b6b; }
-        .category-label.hawaiian { background: rgba(78, 205, 196, 0.3); color: #4ecdc4; }
-        .category-label.american { background: rgba(255, 217, 61, 0.3); color: #ffd93d; }
-        .category-label.european { background: rgba(168, 230, 207, 0.3); color: #a8e6cf; }
-        .category-label.sports { background: rgba(255, 140, 148, 0.3); color: #ff8c94; }
+        .event-category.family { background: rgba(255, 107, 107, 0.3); color: #ff6b6b; }
+        .event-category.hawaiian { background: rgba(78, 205, 196, 0.3); color: #4ecdc4; }
+        .event-category.american { background: rgba(255, 217, 61, 0.3); color: #ffd93d; }
+        .event-category.european { background: rgba(168, 230, 207, 0.3); color: #a8e6cf; }
+        .event-category.sports { background: rgba(255, 140, 148, 0.3); color: #ff8c94; }
 
         footer {
             text-align: center;
-            margin-top: 80px;
-            padding: 40px 20px;
+            margin-top: 50px;
+            padding: 30px 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: #a0a0a0;
             font-size: 0.9em;
         }
 
         .footer-message {
-            margin-top: 20px;
+            margin-top: 15px;
             font-style: italic;
             color: #4ecdc4;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+        }
+
+        @media (max-width: 1200px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .family-timeline,
+            .history-detail {
+                max-height: none;
+            }
+
+            .history-bar {
+                height: 300px;
+            }
         }
     </style>
 </head>
@@ -310,43 +312,37 @@
     <div class="container">
         <header>
             <h1>The Low Family Timeline</h1>
-            <p class="subtitle">Your Place in History</p>
+            <p class="subtitle">A Place in History</p>
             <p class="tagline">
-                This is the story of the Low family—a lineage spanning 255 years, from Kapokini in Pololu Valley (1756) to you today.
-                Whether your connection to this family came through birth, adoption, marriage, or love, this legacy is yours.
-                Our ancestors witnessed the rise and transformation of the Hawaiian Kingdom, the shaping of a nation, and moments large and small
-                that wove our family into the fabric of history. You carry that legacy forward.
+                Explore your family's 255-year journey alongside the major historical moments that shaped the world.
+                Click the dots to discover what was happening in history when your family milestones occurred.
             </p>
         </header>
 
-        <div class="legend">
-            <div class="legend-item">
-                <div class="legend-dot dot-family"></div>
-                <span>Family Events</span>
+        <div class="main-layout">
+            <!-- LEFT: Family Timeline -->
+            <div class="family-timeline" id="familyTimeline">
+                <h2>Your Family Story</h2>
+                <div id="familyContent"></div>
             </div>
-            <div class="legend-item">
-                <div class="legend-dot dot-hawaiian"></div>
-                <span>Hawaiian History</span>
+
+            <!-- CENTER: History Bar with Dots -->
+            <div class="history-bar">
+                <div class="timeline-line"></div>
+                <div class="dots-container" id="dotsContainer"></div>
             </div>
-            <div class="legend-item">
-                <div class="legend-dot dot-american"></div>
-                <span>American History</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot dot-european"></div>
-                <span>European History</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot dot-sports"></div>
-                <span>Sports History</span>
+
+            <!-- RIGHT: Historical Detail Panel -->
+            <div class="history-detail">
+                <h2>Historical Context</h2>
+                <div id="eventDetail" class="event-display empty">
+                    Click a dot to explore historical moments
+                </div>
             </div>
         </div>
 
-        <div class="timeline" id="timeline"></div>
-
         <footer>
-            <p>Click any event to learn more</p>
-            <p style="margin-top: 15px;">
+            <p>
                 <a href="family-tree.html" style="color: #4ecdc4; text-decoration: none; font-weight: 600;">View the Family Tree →</a>
             </p>
             <p class="footer-message">
@@ -415,7 +411,7 @@
             {
                 year: 1856,
                 title: "Kekumulau Marries Kaaihue",
-                description: "Kekumulau (Kane) marries Kaaihue (Wahine) on May 14, 1856 in Pololu Valley. This is the first documented marriage date in your genealogy. They begin building their family during the Hawaiian Kingdom's waning years.",
+                description: "On May 14, 1856, Kekumulau marries Kaaihue in Pololu Valley. This is the first documented marriage date in your genealogy.",
                 category: "family"
             },
             {
@@ -425,27 +421,45 @@
                 category: "american"
             },
             {
+                year: 1869,
+                title: "Transcontinental Railroad Completed",
+                description: "On May 10, 1869, the last spike is driven at Promontory Summit, Utah, completing the first transcontinental railroad. The Golden Spike marks the connection of the Union Pacific and Central Pacific railroads.",
+                category: "american"
+            },
+            {
                 year: 1878,
                 title: "Generation 6: Kalua Lahapa Pimoe is Born",
                 description: "Kalua Lahapa Pimoe Makahi (Wahine) is born on March 26, 1878 in Honokane, Kohala. She is the daughter of Julia and Jonah.",
                 category: "family"
             },
             {
+                year: 1887,
+                title: "Iolani Palace Gets Electricity",
+                description: "The Iolani Palace in Honolulu is outfitted with electric lighting in 1887—four years before the White House receives electricity in 1891. Hawaii was ahead of America.",
+                category: "hawaiian"
+            },
+            {
                 year: 1893,
                 title: "Overthrow of the Hawaiian Kingdom",
-                description: "Queen Lili'uokalani is deposed in a coup backed by foreign businessmen. The Hawaiian Kingdom, which stood sovereign for nearly 100 years, falls. Julia, your Great×2 Grandmother, is 43 years old and witnesses her nation's sovereignty stripped away. This moment shapes your family's story forever.",
+                description: "Queen Lili'uokalani is deposed in a coup backed by foreign businessmen. The Hawaiian Kingdom falls. Julia is 43 years old and witnesses her nation's sovereignty stripped away.",
                 category: "hawaiian"
             },
             {
                 year: 1898,
                 title: "Hawaii Annexed by the United States",
-                description: "Hawaii is officially annexed by the United States as a territory, not a state. Your family, rooted in Hawaiian culture and history, now lives under American governance. Julia is 48; Kalua is 20.",
+                description: "Hawaii is officially annexed by the United States as a territory, not a state. Your family now lives under American governance.",
                 category: "hawaiian"
+            },
+            {
+                year: 1903,
+                title: "Wright Brothers Achieve Flight",
+                description: "On December 17, 1903, Orville and Wilbur Wright successfully achieve powered, controlled flight near Kitty Hawk, North Carolina.",
+                category: "american"
             },
             {
                 year: 1910,
                 title: "Julia Keliimanaole Passes Away",
-                description: "Julia Keliimanaole Wahineaea Kekumulau (Wahine) dies on June 24, 1910 in Honolulu, Oahu at age 60. She lived through the Kingdom, the Overthrow, and the Annexation—witnessing the transformation of her nation. Her legacy carries forward through her children and grandchildren.",
+                description: "On June 24, 1910, Julia Keliimanaole Wahineaea Kekumulau dies at age 60 in Honolulu. She lived through the Overthrow, Annexation, and the transformation of her nation.",
                 category: "family"
             },
             {
@@ -457,32 +471,44 @@
             {
                 year: 1935,
                 title: "Emma Marries Joseph Rodrigues Souze",
-                description: "On June 22, 1935, Emma Kaleiaukai marries Joseph Rodrigues Souze (Kane) in Hawaii. Joseph carries Portuguese heritage, reflecting Hawaii's multicultural fabric shaped by plantation labor and immigration. Together, they will raise a family during Hawaii's territorial era.",
+                description: "On June 22, 1935, Emma marries Joseph Rodrigues Souze in Hawaii. Joseph carries Portuguese heritage, reflecting Hawaii's multicultural fabric.",
                 category: "family"
             },
             {
                 year: 1941,
                 title: "Pearl Harbor Attack",
-                description: "On December 7, 1941, Pearl Harbor is attacked, plunging the United States into World War II. Emma, your Grandmother, is 29 years old. Hawaii becomes a crucial strategic location, and life on the islands transforms overnight. Your family lives through wartime Hawaii.",
+                description: "On December 7, 1941, Pearl Harbor is attacked, plunging the United States into World War II. Emma is 29 years old and Hawaii becomes a crucial strategic location.",
                 category: "american"
             },
             {
                 year: 1943,
                 title: "Generation 8: Leonard Leen Low Sr. is Born",
-                description: "Leonard Leen Low Sr. (Kane) is born on October 11, 1943 in Honolulu, Oahu. He is the son of Emma and Joseph Rodrigues Souze, representing the eighth generation.",
+                description: "Leonard Leen Low Sr. (Kane) is born on October 11, 1943 in Honolulu, Oahu. He is the son of Emma and Joseph Rodrigues Souze.",
                 category: "family"
             },
             {
                 year: 1947,
                 title: "Generation 8: Rowena Kehaulani Souza is Born",
-                description: "Rowena Kehaulani Souza (Wahine) is born on December 7, 1947 in Honolulu, Oahu. She is the daughter of Emma and Joseph Rodrigues Souze, representing the eighth generation.",
+                description: "Rowena Kehaulani Souza (Wahine) is born on December 7, 1947 in Honolulu, Oahu. She is the daughter of Emma and Joseph Rodrigues Souze.",
                 category: "family"
             },
             {
                 year: 1959,
                 title: "Hawaii Becomes a State",
-                description: "On August 21, 1959, Hawaii officially becomes the 50th U.S. state. Emma Kaleiaukai (Generation 7) is 47 years old and witnesses this historic moment. The Hawaiian family has lived through 66 years since Annexation in 1893—Hawaiian territory finally becomes part of the American Union as a state. The islands transform from territory to state, marking a new chapter.",
+                description: "On August 21, 1959, Hawaii officially becomes the 50th U.S. state. Emma is 47 years old and witnesses this historic moment.",
                 category: "hawaiian"
+            },
+            {
+                year: 1960,
+                title: "JFK Elected President",
+                description: "On November 8, 1960, John F. Kennedy is elected the 35th President of the United States. His election energizes the nation and sets the stage for pivotal moments ahead.",
+                category: "american"
+            },
+            {
+                year: 1963,
+                title: "JFK Assassinated",
+                description: "On November 22, 1963, President John F. Kennedy is assassinated in Dallas, Texas. The nation is stunned and mourns the loss of a young president.",
+                category: "american"
             },
             {
                 year: 1966,
@@ -499,8 +525,14 @@
             {
                 year: 1969,
                 title: "Generation 8: Leonard Sr. Marries Rowena",
-                description: "On November 14, 1969, Leonard Leen Low Sr. (Kane) marries Rowena Kehaulani Souza (Wahine) in Honolulu. Leonard Sr. adopts Charon and Charla.",
+                description: "On November 14, 1969, Leonard Leen Low Sr. marries Rowena Kehaulani Souza in Honolulu. Leonard Sr. adopts Charon and Charla.",
                 category: "family"
+            },
+            {
+                year: 1969,
+                title: "Apollo 11: Moon Landing",
+                description: "On July 20, 1969, Apollo 11 lands on the moon, and Neil Armstrong becomes the first human to set foot on another celestial body.",
+                category: "american"
             },
             {
                 year: 1970,
@@ -521,66 +553,6 @@
                 category: "family"
             },
             {
-                year: 2011,
-                title: "Generation 10: Levi Laakea is Born",
-                description: "On February 15, 2011, Levi Laakea Leen Kamahao Holmbeck Low (Kane) is born in Honolulu, Oahu to Leonard Low and Halani Holmbeck. He is the first of the tenth generation, inheriting 255 years of Low family history.",
-                category: "family"
-            },
-            {
-                year: 2016,
-                title: "Generation 9: Leonard Low Marries Halani Holmbeck",
-                description: "On February 5, 2016, Leonard Low (Kane, Gen 9) marries Halani Holmbeck (Wahine) in Honolulu. Together they bring Generation 10 under the Low family name: Kristine Nani, Alissa Alohilani, Brennan Keola, and Levi Laakea.",
-                category: "family"
-            },
-            {
-                year: 2014,
-                title: "Seattle Seahawks Win Super Bowl XLVIII",
-                description: "On February 2, 2014, the Seattle Seahawks dominate the Denver Broncos to win Super Bowl XLVIII. While not Hawaiian history per se, this moment captures the spirit of a Pacific Northwest team triumphing on the world's biggest sports stage—a reminder that we carve our own place in history, in big ways and small. 🏈",
-                category: "sports"
-            },
-            {
-                year: 2020,
-                title: "Generation 10: Brennan Keola is Adopted",
-                description: "On February 26, 2020, Brennan Keola Barboza-Low (Kane) is formally adopted by Leonard Low. Born January 10, 2007, he now officially bears the Low family name alongside his three siblings: Kristine Nani, Alissa Alohilani, and Levi Laakea.",
-                category: "family"
-            },
-            {
-                year: 1869,
-                title: "Transcontinental Railroad Completed",
-                description: "On May 10, 1869, the last spike is driven at Promontory Summit, Utah, completing the first transcontinental railroad. The Golden Spike marks the connection of the Union Pacific and Central Pacific railroads, forever transforming American commerce, settlement, and the westward expansion that shaped the nation.",
-                category: "american"
-            },
-            {
-                year: 1887,
-                title: "Iolani Palace Gets Electricity",
-                description: "The Iolani Palace in Honolulu is outfitted with electric lighting in 1887—four years before the White House receives electricity in 1891. This remarkable fact underscores that the Hawaiian Kingdom was not a backwater, but a sophisticated, modern nation with access to cutting-edge technology. Hawaii was ahead of America.",
-                category: "hawaiian"
-            },
-            {
-                year: 1903,
-                title: "Wright Brothers Achieve Flight",
-                description: "On December 17, 1903, Orville and Wilbur Wright successfully achieve powered, controlled flight near Kitty Hawk, North Carolina. Their 12-second flight marks the beginning of aviation and forever changes human possibility. Within decades, airplanes will connect the islands to the mainland and shrink the world.",
-                category: "american"
-            },
-            {
-                year: 1960,
-                title: "JFK Elected President",
-                description: "On November 8, 1960, John F. Kennedy is elected the 35th President of the United States, becoming the youngest elected president at age 43. His election energizes the nation and sets the stage for pivotal moments ahead—space exploration, civil rights, and Cold War tension.",
-                category: "american"
-            },
-            {
-                year: 1963,
-                title: "JFK Assassinated",
-                description: "On November 22, 1963, President John F. Kennedy is assassinated in Dallas, Texas. The nation is stunned and mourns the loss of a young president. The tragedy reshapes American politics and culture, leaving an indelible mark on the collective memory of the era.",
-                category: "american"
-            },
-            {
-                year: 1969,
-                title: "Apollo 11: Moon Landing",
-                description: "On July 20, 1969, Apollo 11 lands on the moon, and Neil Armstrong becomes the first human to set foot on another celestial body. 'One small step for man, one giant leap for mankind.' The achievement represents the pinnacle of American space exploration and human ambition. This same month, Leonard Low (Generation 9) is just months old—born into a world reaching for the stars.",
-                category: "american"
-            },
-            {
                 year: 1992,
                 title: "Generation 10: Kristine Nani Barboza is Born",
                 description: "Kristine Nani Barboza (Wahine) is born on December 23, 1992. She is the daughter of Halani.",
@@ -595,8 +567,14 @@
             {
                 year: 2001,
                 title: "September 11 Attacks",
-                description: "On September 11, 2001, terrorist attacks on the World Trade Center in New York City and the Pentagon in Washington, D.C., kill nearly 3,000 people. The attacks reshape American foreign policy, national security, and the collective consciousness. The nation is forever changed.",
+                description: "On September 11, 2001, terrorist attacks on the World Trade Center and the Pentagon kill nearly 3,000 people. The attacks reshape American foreign policy and national security.",
                 category: "american"
+            },
+            {
+                year: 2006,
+                title: "Seattle Seahawks Super Bowl XL Loss",
+                description: "On February 5, 2006, the Seattle Seahawks reach their first Super Bowl, but lose to the Pittsburgh Steelers 21-10. Several controversial officiating calls impact the outcome.",
+                category: "sports"
             },
             {
                 year: 2007,
@@ -605,121 +583,141 @@
                 category: "family"
             },
             {
-                year: 2006,
-                title: "Seattle Seahawks Super Bowl XL Loss",
-                description: "On February 5, 2006, the Seattle Seahawks reach their first Super Bowl, facing the Pittsburgh Steelers. The Seahawks lose 21-10 in Super Bowl XL, but fans and analysts point to several controversial officiating calls that may have impacted the outcome. The loss stings, but it sparks hope that better days are ahead for Pacific Northwest football fans—and they're right. Though the pain of close calls will return nine years later.",
+                year: 2011,
+                title: "Generation 10: Levi Laakea is Born",
+                description: "On February 15, 2011, Levi Laakea Leen Kamahao Holmbeck Low (Kane) is born to Leonard Low and Halani Holmbeck. He is the first of the tenth generation.",
+                category: "family"
+            },
+            {
+                year: 2014,
+                title: "Seattle Seahawks Win Super Bowl XLVIII",
+                description: "On February 2, 2014, the Seattle Seahawks dominate the Denver Broncos to win Super Bowl XLVIII 43-8. A moment of triumph on the world's biggest sports stage.",
                 category: "sports"
             },
             {
                 year: 2015,
                 title: "Seattle Seahawks Super Bowl XLIX Heartbreak",
-                description: "On February 1, 2015, the Seattle Seahawks reach Super Bowl XLIX against the New England Patriots. With 26 seconds left and the ball on the 1-yard line, victory seems assured. Instead, a play-call will haunt the Pacific Northwest for a decade: a slant pass intercepted by Malcolm Butler at the goal line. The 'Why didn't we hand it to Marshawn Lynch?' debate begins immediately and continues to this day. The Seahawks lose 28-24. But hey—at least they made it to the Super Bowl. Twice. That's something. 🏈",
+                description: "On February 1, 2015, the Seahawks reach Super Bowl XLIX but lose to the Patriots 28-24 with a controversial goal-line interception. The 'Why didn't we hand it to Marshawn Lynch?' debate continues to this day.",
                 category: "sports"
+            },
+            {
+                year: 2016,
+                title: "Generation 9: Leonard Low Marries Halani Holmbeck",
+                description: "On February 5, 2016, Leonard Low marries Halani Holmbeck in Honolulu. Together they bring Generation 10 under the Low family name.",
+                category: "family"
             },
             {
                 year: 2019,
                 title: "COVID-19 Pandemic Begins",
-                description: "In late 2019, a novel coronavirus emerges in Wuhan, China, and spreads globally. By 2020, COVID-19 becomes a worldwide pandemic, shutting down economies, schools, and businesses. Millions die. The world is forced to adapt to lockdowns, remote work, and uncertainty. Life as it was known is fundamentally disrupted.",
+                description: "In late 2019, a novel coronavirus emerges in Wuhan, China. By 2020, COVID-19 becomes a worldwide pandemic, disrupting life globally.",
                 category: "american"
+            },
+            {
+                year: 2020,
+                title: "Generation 10: Brennan Keola is Adopted",
+                description: "On February 26, 2020, Brennan Keola Barboza-Low is formally adopted by Leonard Low. He now officially bears the Low family name.",
+                category: "family"
             }
         ];
 
-        const timelineContainer = document.getElementById('timeline');
+        // Timeline bounds
+        const minYear = 1756;
+        const maxYear = 2020;
+        const yearSpan = maxYear - minYear;
 
-        // Sort events by year
-        events.sort((a, b) => a.year - b.year);
+        // Separate family and historical events
+        const familyEvents = events.filter(e => e.category === 'family');
+        const historicalEvents = events.filter(e => e.category !== 'family');
 
-        // Group events by generation
-        const generationMap = {};
-        events.forEach(event => {
-            const genMatch = event.title.match(/Generation (\d+):/);
-            const generation = genMatch ? `Generation ${genMatch[1]}` : 'Other Events';
-            if (!generationMap[generation]) {
-                generationMap[generation] = [];
+        // Render family timeline on the left
+        function renderFamilyTimeline() {
+            const familyContent = document.getElementById('familyContent');
+            const generationMap = {};
+
+            familyEvents.forEach(event => {
+                const genMatch = event.title.match(/Generation (\d+):/);
+                const generation = genMatch ? `Generation ${genMatch[1]}` : 'Other';
+                if (!generationMap[generation]) generationMap[generation] = [];
+                generationMap[generation].push(event);
+            });
+
+            const generationOrder = [];
+            for (let i = 1; i <= 10; i++) {
+                const gen = `Generation ${i}`;
+                if (generationMap[gen]) generationOrder.push(gen);
             }
-            generationMap[generation].push(event);
-        });
 
-        // Create generation sections
-        const generationOrder = [];
-        for (let i = 1; i <= 10; i++) {
-            const gen = `Generation ${i}`;
-            if (generationMap[gen]) generationOrder.push(gen);
-        }
-        if (generationMap['Other Events']) generationOrder.push('Other Events');
+            generationOrder.forEach(generation => {
+                const genSection = document.createElement('div');
+                genSection.className = 'generation-section';
 
-        generationOrder.forEach(generation => {
-            const genEvents = generationMap[generation];
+                const genHeader = document.createElement('div');
+                genHeader.className = 'gen-header collapsed';
+                genHeader.innerHTML = `<span class="gen-arrow">▶</span><span>${generation}</span>`;
 
-            // Create generation section
-            const genSection = document.createElement('div');
-            genSection.className = 'generation-section';
+                const genContent = document.createElement('div');
+                genContent.className = 'gen-content collapsed';
 
-            // Create generation header
-            const genHeader = document.createElement('div');
-            genHeader.className = 'gen-header collapsed';
-            genHeader.innerHTML = `<span class="gen-arrow">▶</span><span>${generation}</span>`;
-
-            // Create content container
-            const genContent = document.createElement('div');
-            genContent.className = 'gen-content collapsed';
-
-            // Add events to content
-            genEvents.forEach((event, index) => {
-                const eventDiv = document.createElement('div');
-                eventDiv.className = 'timeline-event';
-
-                // Year on left
-                const yearDiv = document.createElement('div');
-                yearDiv.className = 'timeline-year';
-                const yearText = document.createElement('div');
-                yearText.className = 'year';
-                yearText.textContent = event.year;
-                yearDiv.appendChild(yearText);
-
-                // Content on right
-                const contentDiv = document.createElement('div');
-                contentDiv.className = `timeline-content ${event.category}`;
-
-                const titleDiv = document.createElement('div');
-                titleDiv.className = 'event-title';
-                titleDiv.textContent = event.title;
-
-                const descDiv = document.createElement('div');
-                descDiv.className = 'event-description';
-                descDiv.textContent = event.description;
-
-                const categoryLabel = document.createElement('span');
-                categoryLabel.className = `category-label ${event.category}`;
-                categoryLabel.textContent = event.category;
-
-                contentDiv.appendChild(titleDiv);
-                contentDiv.appendChild(descDiv);
-                contentDiv.appendChild(categoryLabel);
-
-                eventDiv.appendChild(yearDiv);
-                eventDiv.appendChild(contentDiv);
-                genContent.appendChild(eventDiv);
-
-                // Add click handler to toggle description
-                contentDiv.addEventListener('click', function() {
-                    document.querySelectorAll('.timeline-content.active').forEach(el => {
-                        if (el !== this) el.classList.remove('active');
-                    });
-                    this.classList.toggle('active');
+                generationMap[generation].forEach(event => {
+                    const eventDiv = document.createElement('div');
+                    eventDiv.className = 'family-event';
+                    eventDiv.innerHTML = `
+                        <div class="family-event-year">${event.year}</div>
+                        <div class="family-event-title">${event.title.replace(/^Generation \d+: /, '')}</div>
+                    `;
+                    genContent.appendChild(eventDiv);
                 });
-            });
 
-            // Add click handler to generation header
-            genHeader.addEventListener('click', function() {
-                genHeader.classList.toggle('collapsed');
-                genContent.classList.toggle('collapsed');
-            });
+                genHeader.addEventListener('click', function() {
+                    genHeader.classList.toggle('collapsed');
+                    genContent.classList.toggle('collapsed');
+                });
 
-            genSection.appendChild(genHeader);
-            genSection.appendChild(genContent);
-            timelineContainer.appendChild(genSection);
-        });
+                genSection.appendChild(genHeader);
+                genSection.appendChild(genContent);
+                familyContent.appendChild(genSection);
+            });
+        }
+
+        // Render dots on the history bar
+        function renderHistoryBar() {
+            const dotsContainer = document.getElementById('dotsContainer');
+            const eventDetail = document.getElementById('eventDetail');
+
+            historicalEvents.forEach(event => {
+                const percentFromTop = ((event.year - minYear) / yearSpan) * 100;
+
+                const dot = document.createElement('div');
+                dot.className = `history-dot ${event.category}`;
+                dot.style.marginTop = `${percentFromTop}%`;
+                dot.title = `${event.year}: ${event.title}`;
+
+                dot.addEventListener('click', function() {
+                    // Remove active class from all dots
+                    document.querySelectorAll('.history-dot.active').forEach(d => d.classList.remove('active'));
+                    // Add active class to clicked dot
+                    dot.classList.add('active');
+
+                    // Update event detail panel
+                    eventDetail.innerHTML = `
+                        <div class="event-year">${event.year}</div>
+                        <div class="event-title">${event.title}</div>
+                        <div class="event-description">${event.description}</div>
+                        <span class="event-category ${event.category}">${event.category}</span>
+                    `;
+                    eventDetail.classList.remove('empty');
+
+                    // Scroll to top of detail panel
+                    document.querySelector('.history-detail').scrollTop = 0;
+                });
+
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        // Initialize
+        renderFamilyTimeline();
+        renderHistoryBar();
     </script>
 </body>
 </html>
