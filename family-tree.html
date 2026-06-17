@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Low Family Tree</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            color: #00d4ff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1em;
+            color: #a0a0a0;
+            margin-bottom: 20px;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-size: 0.9em;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tree {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        .generation {
+            margin-bottom: 40px;
+        }
+
+        .gen-header {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .family-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-left: 20px;
+        }
+
+        .person {
+            background: rgba(255, 255, 255, 0.08);
+            border-left: 3px solid #4ecdc4;
+            border-radius: 6px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .person:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-left-color: #00d4ff;
+            transform: translateY(-2px);
+        }
+
+        .person-name {
+            font-weight: 600;
+            font-size: 1em;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .person-gender {
+            display: inline-block;
+            font-size: 0.75em;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .kane {
+            background: rgba(100, 200, 255, 0.3);
+            color: #64c8ff;
+        }
+
+        .wahine {
+            background: rgba(255, 100, 200, 0.3);
+            color: #ff64c8;
+        }
+
+        .person-dates {
+            font-size: 0.85em;
+            color: #b0b0b0;
+            margin: 5px 0;
+        }
+
+        .person-spouse {
+            font-size: 0.85em;
+            color: #a0a0a0;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .spouse-label {
+            display: inline-block;
+            font-weight: 600;
+            color: #4ecdc4;
+            margin-right: 5px;
+        }
+
+        .note {
+            font-size: 0.8em;
+            color: #ffd93d;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .navigation {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 10px;
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 212, 255, 0.5);
+        }
+
+        .nav-button:hover {
+            background: rgba(0, 212, 255, 0.4);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #a0a0a0;
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 768px) {
+            .family-members {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            .legend {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Low Family Tree</h1>
+            <p class="subtitle">Ten Generations from Kapokini (1756) to Today</p>
+        </header>
+
+        <div class="legend">
+            <div class="legend-item">
+                <span class="person-gender kane">K</span>
+                <span>Kane (Male)</span>
+            </div>
+            <div class="legend-item">
+                <span class="person-gender wahine">W</span>
+                <span>Wahine (Female)</span>
+            </div>
+        </div>
+
+        <div class="tree">
+            <!-- Generation 1 -->
+            <div class="generation">
+                <div class="gen-header">Generation 1 (circa 1756)</div>
+                <div class="family-members">
+                    <div class="person">
+                        <div class="person-name">
+                            Kapokini
+                            <span class="person-gender kane">K</span>
+                        </div>
+                        <div class="person-dates">b. circa 1756, Kohala, Hawaii Island</div>
+                        <div class="person-spouse">
+                            <span class="spouse-label">Married:</span> Keaka (W)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generation 2 -->
+            <div class="generation">
+                <div class="gen-header">Generation 2 (circa 1778)</div>
+                <div class="family-members">
+                    <div class="person">
+                        <div class="person-name">
+                            Kaphinui
+                            <span class="person-gender kane">K</span>
+                        </div>
+                        <div class="person-dates">b. circa 1778, Kohala</div>
+                        <div class="note">Son of Kapokini & Keaka</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generation 3 -->
+            <div class="generation">
+                <div class="gen-header">Generation 3 (circa 1800)</div>
+                <div class="family-members">
+                    <div class="person">
+                        <div class="person-name">
+                            Puulau
+                            <span class="person-gender kane">K</span>
+                        </div>
+                        <div class="person-dates">b. circa 1800, Kohala</div>
+                        <div class="person-spouse">
+                            <span class="spouse-label">Married:</span> Kamakaheikuli (W)
+                        </div>
+                        <div class="note">Son of Kaphinui</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generation 4 -->
+            <div class="generation">
+                <div class="gen-header">Generation 4 (circa 1822)</div>
+                <div class="family-members">
+                    <div class="person">
+                        <div class="person-name">
+                            Kekumulau
+                            <span class="person-gender kane">K</span>
+                        </div>
+                        <div class="person-dates">b. circa 1822, Pololu Valley, Kohala</div>
+                        <div class="person-spouse">
+                            <span class="spouse-label">Married:</span> Kaaihue (W) on May 14, 1856
+                        </div>
+                        <div class="note">Son of Puulau. Ancestral home: Pololu Valley.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generation 5 -->
+            <div class="generation">
+                <div class="gen-header">Generation 5 (circa 1850)</div>
+                <div class="family-members">
+                    <div class="person">
+                        <div class="person-name">
+                            Julia Keliimanaole Wahineaea Kekumulau
+                            <span class="person-gender wahine">W</span>
+                        </div>
+                        <div class="person-dates">b. circa 1850, Honokane, Kohala</div>
+                        <div class="person-dates">d. June 24, 1910, Honolulu, Oahu</div>
+                        <div class="person-spouse">
+                            <span class="spouse-label">Married:</span> Jonah Puamana Makahi (K)
+                        </div>
+                        <div class="note">Daughter of Kekumulau. Witnessed the Overthrow (1893) and Annexation (1898).</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generation 6 -->
+            <div class="generation">
+                <div class="gen-header">Generation 6 (1878)</div>
+                <div class="family-members">
+                    <div class="person">
+                        <div class="person-name">
+                            Kalua Lahapa Pimoe Makahi
+                            <span class="person-gender wahine">W</span>
+                        </div>
+                        <div class="person-dates">b. March 26, 1878, Honokane, Kohala</div>
+                        <div class="person-dates">d. May 4, 1948, Kalaoa, Kona, Hawaii</div>
+                        <div class="person-spouse">
+                            <span class="spouse-label">Married:</span> Jacob Palakiko Kamaka (K)
+                        </div>
+                        <div class="note">Daughter of Julia & Jonah. Witnessed Pearl Harbor (1941) and Hawaii's path to Statehood (1959).</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generation 7 -->
+            <div class="generation">
+                <div class="gen-header">Generation 7 (1912)</div>
+                <div class="family-members">
+                    <div class="person">
+                        <div class="person-name">
+                            Emma Kaleiaukai (Makahi) Kamaka
+                            <span class="person-gender wahine">W</span>
+                        </div>
+                        <div class="person-dates">b. November 12, 1912, Kalaoa, Kona, Hawaii</div>
+                        <div class="person-dates">d. January 6, 1976, Honolulu, Oahu</div>
+                        <div class="person-spouse">
+                            <span class="spouse-label">Married:</span> Joseph Rodrigues Souze (K) on June 22, 1935
+                        </div>
+                        <div class="note">Daughter of Kalua & Jacob. Grandmother of Generation 9.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generation 8 -->
+            <div class="generation">
+                <div class="gen-header">Generation 8 (1943-1947)</div>
+                <div class="family-members">
+                    <div class="person">
+                        <div class="person-name">
+                            Leonard Leen Low Sr.
+                            <span class="person-gender kane">K</span>
+                        </div>
+                        <div class="person-dates">b. October 11, 1943, Honolulu, Oahu</div>
+                        <div class="person-spouse">
+                            <span class="spouse-label">Married:</span> Rowena Kehaulani Souza (W) on November 14, 1969
+                        </div>
+                        <div class="note">Son of Emma & Joseph. Father of Generation 9.</div>
+                    </div>
+                    <div class="person">
+                        <div class="person-name">
+                            Rowena Kehaulani Souza
+                            <span class="person-gender wahine">W</span>
+                        </div>
+                        <div class="person-dates">b. December 7, 1947, Honolulu, Oahu</div>
+                        <div class="person-spouse">
+                            <span class="spouse-label">Married:</span> Leonard Leen Low Sr. (K) on November 14, 1969
+                        </div>
+                        <div class="note">Daughter of Emma & Joseph. Mother of Generation 9 (including adopted daughters).</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generation 9 -->
+            <div class="generation">
+                <div class="gen-header">Generation 9 (1966-1975)</div>
+                <div class="family-members">
+                    <div class="person">
+                        <div class="person-name">
+                            Charon Kehaulani Low
+                            <span class="person-gender wahine">W</span>
+                        </div>
+                        <div class="person-dates">b. October 5, 1966, Honolulu, Oahu</div>
+                        <div class="person-spouse">
+                            <span class="spouse-label">Married:</span> Rhineheart Hoapili (K) in 1990
+                        </div>
+                        <div class="note">Daughter of Rowena. Adopted by Leonard Sr. Mother of Generation 10a.</div>
+                    </div>
+                    <div class="person">
+                        <div class="person-name">
+                            Charla Kahealni Low
+                            <span class="person-gender wahine">W</span>
+                        </div>
+                        <div class="person-dates">b. May 20, 1968, Honolulu, Oahu</div>
+                        <div class="person-spouse">
+                            <span class="spouse-label">Married:</span> Stanley Good (K) [divorced]; Tim Weaver (K)
+                        </div>
+                        <div class="note">Daughter of Rowena. Adopted by Leonard Sr. Mother of Generation 10b.</div>
+                    </div>
+                    <div class="person">
+                        <div class="person-name">
+                            Leonard Low
+                            <span class="person-gender kane">K</span>
+                        </div>
+                        <div class="person-dates">b. August 7, 1970, Honolulu, Oahu</div>
+                        <div class="person-spouse">
+                            <span class="spouse-label">Married:</span> Halani Holmbeck (W) on February 5, 2016
+                        </div>
+                        <div class="note">Son of Leonard Sr. & Rowena. Father of Generation 10 (Levi, Brennan). Stepfather of Generation 10 (Kristine, Alissa).</div>
+                    </div>
+                    <div class="person">
+                        <div class="person-name">
+                            Bronson Low
+                            <span class="person-gender kane">K</span>
+                        </div>
+                        <div class="person-dates">b. December 18, 1975, Honolulu, Oahu</div>
+                        <div class="note">Son of Leonard Sr. & Rowena. Father of Generation 10a.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generation 10 -->
+            <div class="generation">
+                <div class="gen-header">Generation 10 (1992-2011) — The Four Children</div>
+                <div class="family-members">
+                    <div class="person">
+                        <div class="person-name">
+                            Kristine Nani Barboza
+                            <span class="person-gender wahine">W</span>
+                        </div>
+                        <div class="person-dates">b. December 23, 1992</div>
+                        <div class="note">Daughter of Halani & previous partner. Part of the Low family through love and commitment.</div>
+                    </div>
+                    <div class="person">
+                        <div class="person-name">
+                            Alissa Alohilani Barboza
+                            <span class="person-gender wahine">W</span>
+                        </div>
+                        <div class="person-dates">b. June 29, 2000</div>
+                        <div class="note">Daughter of Halani & previous partner. Part of the Low family through love and commitment.</div>
+                    </div>
+                    <div class="person">
+                        <div class="person-name">
+                            Brennan Keola Barboza-Low
+                            <span class="person-gender kane">K</span>
+                        </div>
+                        <div class="person-dates">b. January 10, 2007</div>
+                        <div class="person-dates">Adopted by Leonard Low on February 26, 2020</div>
+                        <div class="note">Son of Halani & previous partner. Legally and lovingly embraced as a full member of the Low family.</div>
+                    </div>
+                    <div class="person">
+                        <div class="person-name">
+                            Levi Laakea Leen Kamahao Holmbeck Low
+                            <span class="person-gender kane">K</span>
+                        </div>
+                        <div class="person-dates">b. February 15, 2011, Honolulu, Oahu</div>
+                        <div class="note">Biological son of Leonard Low & Halani Holmbeck. Carries the Leen lineage forward through three generations (Leonard Sr. → Leonard → Levi).</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generation 11 Placeholder -->
+            <div class="generation">
+                <div class="gen-header">Generation 11 (Coming Soon) — The Next Chapter</div>
+                <div class="family-members">
+                    <div class="person" style="background: rgba(100, 150, 100, 0.1); border-left-color: #a8e6cf;">
+                        <div class="person-name" style="color: #a8e6cf;">
+                            Space for future descendants
+                        </div>
+                        <div class="person-dates">Charon, Charla, Bronson, and their families continue the Low lineage.</div>
+                        <div class="note">This tree grows as new generations arrive. Your story continues.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="index.html" class="nav-button">← Back to Timeline</a>
+        </div>
+
+        <footer>
+            <p>The Low Family Tree — Ten Generations from Kapokini (circa 1756) to Today</p>
+            <p style="margin-top: 10px; color: #4ecdc4;">All four children of Generation 10 share equally in the Low family legacy, regardless of how they joined the family.</p>
+        </footer>
+    </div>
+</body>
+</html>
