@@ -677,7 +677,9 @@
 
                 const genHeader = document.createElement('div');
                 genHeader.className = 'gen-header collapsed';
-                genHeader.innerHTML = `<span class="gen-arrow">▶</span><span>${generation}</span>`;
+                const yearRange = generationRanges[generation];
+                const yearsText = yearRange ? ` (${yearRange.start}–${yearRange.end})` : '';
+                genHeader.innerHTML = `<span class="gen-arrow">▶</span><span>${generation}${yearsText}</span>`;
 
                 const genContent = document.createElement('div');
                 genContent.className = 'gen-content collapsed';
