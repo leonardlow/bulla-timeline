@@ -792,6 +792,7 @@
                 const gen = `Generation ${i}`;
                 if (generationMap[gen]) generationOrder.push(gen);
             }
+            if (generationMap['Other']) generationOrder.push('Other');
 
             generationOrder.forEach(generation => {
                 const genSection = document.createElement('div');
@@ -925,6 +926,7 @@
                 const gen = `Generation ${i}`;
                 if (generationMap[gen]) generationOrder.push(gen);
             }
+            if (generationMap['Other']) generationOrder.push('Other');
 
             generationOrder.forEach(generation => {
                 const genSection = document.createElement('div');
