@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Low Family Timeline: A Place in History</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #00d4ff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #b0b0b0;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .tagline {
+            font-size: 1em;
+            color: #a0a0a0;
+            max-width: 600px;
+            margin: 20px auto;
+            line-height: 1.6;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .legend-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .dot-family { background-color: #ff6b6b; }
+        .dot-hawaiian { background-color: #4ecdc4; }
+        .dot-american { background-color: #ffd93d; }
+        .dot-european { background-color: #a8e6cf; }
+        .dot-sports { background-color: #ff8c94; }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, #00d4ff, #ff6b6b, #4ecdc4);
+            top: 0;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+        }
+
+        .timeline-event {
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeIn 0.6s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .timeline-event:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-event:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-event:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-event:nth-child(n+4) { animation-delay: 0.4s; }
+
+        .timeline-content {
+            width: 48%;
+            display: inline-block;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .timeline-event:nth-child(odd) .timeline-content {
+            margin-left: 0;
+            margin-right: auto;
+            padding-right: 40px;
+        }
+
+        .timeline-event:nth-child(even) .timeline-content {
+            margin-left: auto;
+            margin-right: 0;
+            padding-left: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+            }
+
+            .timeline-event:nth-child(even) .timeline-content {
+                padding-left: 40px;
+            }
+        }
+
+        .timeline-content:hover {
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 30px;
+            z-index: 10;
+            border: 3px solid;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-dot {
+                left: 20px;
+            }
+        }
+
+        .timeline-content.family { border-left-color: #ff6b6b; }
+        .timeline-content.hawaiian { border-left-color: #4ecdc4; }
+        .timeline-content.american { border-left-color: #ffd93d; }
+        .timeline-content.european { border-left-color: #a8e6cf; }
+        .timeline-content.sports { border-left-color: #ff8c94; }
+
+        .timeline-dot.family { border-color: #ff6b6b; background: #ff6b6b; }
+        .timeline-dot.hawaiian { border-color: #4ecdc4; background: #4ecdc4; }
+        .timeline-dot.american { border-color: #ffd93d; background: #ffd93d; }
+        .timeline-dot.european { border-color: #a8e6cf; background: #a8e6cf; }
+        .timeline-dot.sports { border-color: #ff8c94; background: #ff8c94; }
+
+        .year {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 5px;
+        }
+
+        .event-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .event-description {
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: #d0d0d0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .timeline-content.active .event-description {
+            max-height: 200px;
+        }
+
+        .category-label {
+            display: inline-block;
+            font-size: 0.75em;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .category-label.family { background: rgba(255, 107, 107, 0.3); color: #ff6b6b; }
+        .category-label.hawaiian { background: rgba(78, 205, 196, 0.3); color: #4ecdc4; }
+        .category-label.american { background: rgba(255, 217, 61, 0.3); color: #ffd93d; }
+        .category-label.european { background: rgba(168, 230, 207, 0.3); color: #a8e6cf; }
+        .category-label.sports { background: rgba(255, 140, 148, 0.3); color: #ff8c94; }
+
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a0a0a0;
+            font-size: 0.9em;
+        }
+
+        .footer-message {
+            margin-top: 20px;
+            font-style: italic;
+            color: #4ecdc4;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Low Family Timeline</h1>
+            <p class="subtitle">A Place in History</p>
+            <p class="tagline">
+                From Kapokini in Pololu Valley (1756) to Levi Laakea today—255 years of family,
+                resilience, and connection to the Hawaiian islands. Our lineage witnessed the rise
+                and transformation of a kingdom, the shaping of a nation, and moments large and small
+                that wove us into the fabric of history.
+            </p>
+        </header>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot dot-family"></div>
+                <span>Family Events</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot dot-hawaiian"></div>
+                <span>Hawaiian History</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot dot-american"></div>
+                <span>American History</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot dot-european"></div>
+                <span>European History</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot dot-sports"></div>
+                <span>Sports History</span>
+            </div>
+        </div>
+
+        <div class="timeline" id="timeline"></div>
+
+        <footer>
+            <p>Click any event to learn more</p>
+            <p class="footer-message">
+                "Although our lifetime is but a blink in the grand scheme of things,
+                our family line has a place in this world." — For Levi
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        const events = [
+            {
+                year: 1756,
+                title: "Kapokini is Born",
+                description: "Your Great×6 Grandfather, Kapokini (Kane), is born in Kohala, Hawaii Island. He enters the world during the Hawaiian Kingdom period, decades before unification under Kamehameha I. His lineage will span over two and a half centuries.",
+                category: "family"
+            },
+            {
+                year: 1776,
+                title: "American Revolution",
+                description: "On the other side of the world, thirteen colonies declare independence from Britain, forever changing the course of the Americas. Meanwhile, your ancestors continue their lives on the Hawaiian islands.",
+                category: "american"
+            },
+            {
+                year: 1778,
+                title: "Kaphinui is Born",
+                description: "Kaphinui (Kane), your Great×5 Grandfather, is born in Kohala. He is Kapokini's son, continuing the family line through generations. Captain Cook arrives in Hawaii this same year, beginning sustained European contact.",
+                category: "family"
+            },
+            {
+                year: 1789,
+                title: "French Revolution Begins",
+                description: "In Europe, the ideals of liberty, equality, and fraternity spark a revolution that will reshape the continent. On Hawaii Island, traditional ways continue as your family roots deepen.",
+                category: "european"
+            },
+            {
+                year: 1795,
+                title: "Kamehameha I Unifies Hawaii",
+                description: "Kamehameha the Great consolidates power over the Hawaiian islands. Your family, from Pololu Valley where legend says Kamehameha was hidden as a child, witnesses the forging of a unified kingdom.",
+                category: "hawaiian"
+            },
+            {
+                year: 1800,
+                title: "Puulau is Born",
+                description: "Puulau (Kane), your Great×4 Grandfather, is born in Kohala. He grows up in a unified Hawaiian Kingdom under Kamehameha I's reign.",
+                category: "family"
+            },
+            {
+                year: 1822,
+                title: "Kekumulau is Born in Pololu Valley",
+                description: "Kekumulau (Kane), your Great×3 Grandfather, is born in Pololu Valley, Kohala—the ancestral home of your family. He will live through transformation unlike any his ancestors knew.",
+                category: "family"
+            },
+            {
+                year: 1849,
+                title: "California Gold Rush",
+                description: "Thousands rush to California seeking fortune. This same era sees rapid changes come to the Hawaiian Kingdom as Western influence grows stronger. Your family continues their life on the islands.",
+                category: "american"
+            },
+            {
+                year: 1850,
+                title: "Julia Keliimanaole is Born",
+                description: "Julia Keliimanaole Wahineaea Kekumulau (Wahine), your Great×2 Grandmother, is born in Honokane, Kohala. She will witness the most transformative decades in Hawaiian history.",
+                category: "family"
+            },
+            {
+                year: 1856,
+                title: "Kekumulau Marries Kaaihue",
+                description: "Kekumulau (Kane) marries Kaaihue (Wahine) on May 14, 1856 in Pololu Valley. This is the first documented marriage date in your genealogy. They begin building their family during the Hawaiian Kingdom's waning years.",
+                category: "family"
+            },
+            {
+                year: 1861,
+                title: "American Civil War Begins",
+                description: "The United States tears itself apart over slavery. Across the ocean, Hawaii remains independent, though Western powers circle closer. Your family navigates these changing times.",
+                category: "american"
+            },
+            {
+                year: 1878,
+                title: "Kalua Lahapa Pimoe is Born",
+                description: "Kalua Lahapa Pimoe Makahi (Wahine), your Great Grandmother, is born on March 26, 1878 in Honokane, Kohala. She enters a world where the Hawaiian Kingdom's independence faces existential threats.",
+                category: "family"
+            },
+            {
+                year: 1893,
+                title: "Overthrow of the Hawaiian Kingdom",
+                description: "Queen Lili'uokalani is deposed in a coup backed by foreign businessmen. The Hawaiian Kingdom, which stood sovereign for nearly 100 years, falls. Julia, your Great×2 Grandmother, is 43 years old and witnesses her nation's sovereignty stripped away. This moment shapes your family's story forever.",
+                category: "hawaiian"
+            },
+            {
+                year: 1898,
+                title: "Hawaii Annexed by the United States",
+                description: "Hawaii is officially annexed by the United States as a territory, not a state. Your family, rooted in Hawaiian culture and history, now lives under American governance. Julia is 48; Kalua is 20.",
+                category: "hawaiian"
+            },
+            {
+                year: 1910,
+                title: "Julia Keliimanaole Passes Away",
+                description: "Julia Keliimanaole Wahineaea Kekumulau (Wahine) dies on June 24, 1910 in Honolulu, Oahu at age 60. She lived through the Kingdom, the Overthrow, and the Annexation—witnessing the transformation of her nation. Her legacy carries forward through her children and grandchildren.",
+                category: "family"
+            },
+            {
+                year: 1912,
+                title: "Emma Kaleiaukai is Born",
+                description: "Emma Kaleiaukai (Makahi) Kamaka (Wahine) is born on November 12, 1912 in Kalaoa, Kona, Hawaii. She enters the world as Hawaii is settling into its new role as a U.S. territory. Emma will become your Grandmother.",
+                category: "family"
+            },
+            {
+                year: 1935,
+                title: "Emma Marries Joseph Rodrigues Souze",
+                description: "On June 22, 1935, Emma Kaleiaukai marries Joseph Rodrigues Souze (Kane) in Hawaii. Joseph carries Portuguese heritage, reflecting Hawaii's multicultural fabric shaped by plantation labor and immigration. Together, they will raise a family during Hawaii's territorial era.",
+                category: "family"
+            },
+            {
+                year: 1941,
+                title: "Pearl Harbor Attack",
+                description: "On December 7, 1941, Pearl Harbor is attacked, plunging the United States into World War II. Emma, your Grandmother, is 29 years old. Hawaii becomes a crucial strategic location, and life on the islands transforms overnight. Your family lives through wartime Hawaii.",
+                category: "american"
+            },
+            {
+                year: 1944,
+                title: "Leonard Leen Low Sr. is Born",
+                description: "Leonard Leen Low Sr. (Kane) is born on October 11, 1944 in Honolulu, Oahu during World War II. He enters a world at war, with Hawaii under martial law. He will become your Father.",
+                category: "family"
+            },
+            {
+                year: 1947,
+                title: "Rowena Kehaulani Souza is Born",
+                description: "Rowena Kehaulani Souza (Wahine) is born on December 7, 1947 in Honolulu, Oahu. The post-war era brings hope and change to Hawaii. Rowena carries both Hawaiian and Portuguese heritage. She will become your Mother.",
+                category: "family"
+            },
+            {
+                year: 1959,
+                title: "Hawaii Becomes a State",
+                description: "On August 21, 1959, Hawaii officially becomes the 50th U.S. state. Emma, your Grandmother, is 47 years old. The event your family has lived through for over 60 years—Hawaiian territory becoming part of the American Union—is complete. Your island home transforms from territory to state.",
+                category: "hawaiian"
+            },
+            {
+                year: 1968,
+                title: "Your Sisters are Born",
+                description: "Charon Kehaulani Low (Wahine, Oct 5) and Charla Kahealni Low (Wahine, May 20) are born. They are the daughters Rowena had before marrying Leonard Sr., whom he would adopt. Your family expands in the newly formed state of Hawaii.",
+                category: "family"
+            },
+            {
+                year: 1969,
+                title: "Leonard Sr. Marries Rowena",
+                description: "On November 14, 1969, Leonard Leen Low Sr. (Kane) marries Rowena Kehaulani Souza (Wahine) in Honolulu. Leonard Sr. adopts Rowena's two daughters. A new chapter of the family begins, uniting multiple lineages.",
+                category: "family"
+            },
+            {
+                year: 1970,
+                title: "You Are Born",
+                description: "On August 7, 1970, you—Leonard Low (Kane)—are born in Honolulu, Oahu. You are the direct descendant of Kapokini (born 1756), carrying 214 years of family history within you. Your birth continues a lineage that spans the Hawaiian Kingdom, its fall, and America's rise. Emma, your Grandmother, is 57. Your father is 25.",
+                category: "family"
+            },
+            {
+                year: 1975,
+                title: "Bronson Low is Born",
+                description: "On December 18, 1975, your brother Bronson Low (Kane) is born in Honolulu, Oahu. The family continues to grow. Your parents now have two biological sons alongside your two adopted sisters.",
+                category: "family"
+            },
+            {
+                year: 1976,
+                title: "Emma Passes Away",
+                description: "On January 6, 1976, Emma Kaleiaukai (Makahi) Kamaka (Wahine) dies at age 63 in Honolulu. Your Grandmother, who lived through Pearl Harbor, WWII, and Hawaii's transformation from territory to state, passes away. You are 5 years old; Bronson is newborn. Emma's legacy continues through the values and stories she leaves behind.",
+                category: "family"
+            },
+            {
+                year: 2011,
+                title: "Levi Laakea is Born",
+                description: "On February 15, 2011, Levi Laakea Leen Kamahao Holmbeck Low (Kane) is born. You become a father. Levi carries the names and stories of his ancestors—Leen from his great-great-grandmother's line, Kamahao and Holmbeck from his mother Halani. He inherits 255 years of family history, resilience, and a place in the world.",
+                category: "family"
+            },
+            {
+                year: 2016,
+                title: "You Marry Halani Holmbeck",
+                description: "On February 5, 2016, you marry Halani Holmbeck (Wahine) in Honolulu. Together, you blend families, adopt Brennan Keola, and create a household rich in culture and connection. Levi, now 5 years old, gains a stepmother and step-siblings—Kristine and Alissa. The family continues to grow and evolve.",
+                category: "family"
+            },
+            {
+                year: 2014,
+                title: "Seattle Seahawks Win Super Bowl XLVIII",
+                description: "On February 2, 2014, the Seattle Seahawks dominate the Denver Broncos to win Super Bowl XLVIII. While not Hawaiian history per se, this moment captures the spirit of a Pacific Northwest team triumphing on the world's biggest sports stage—a reminder that we carve our own place in history, in big ways and small. 🏈",
+                category: "sports"
+            }
+        ];
+
+        const timelineContainer = document.getElementById('timeline');
+
+        // Sort events by year
+        events.sort((a, b) => a.year - b.year);
+
+        events.forEach((event, index) => {
+            const eventDiv = document.createElement('div');
+            eventDiv.className = 'timeline-event';
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = `timeline-content ${event.category}`;
+
+            const dotDiv = document.createElement('div');
+            dotDiv.className = `timeline-dot ${event.category}`;
+
+            const yearDiv = document.createElement('div');
+            yearDiv.className = 'year';
+            yearDiv.textContent = event.year;
+
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'event-title';
+            titleDiv.textContent = event.title;
+
+            const descDiv = document.createElement('div');
+            descDiv.className = 'event-description';
+            descDiv.textContent = event.description;
+
+            const categoryLabel = document.createElement('span');
+            categoryLabel.className = `category-label ${event.category}`;
+            categoryLabel.textContent = event.category;
+
+            contentDiv.appendChild(dotDiv);
+            contentDiv.appendChild(yearDiv);
+            contentDiv.appendChild(titleDiv);
+            contentDiv.appendChild(descDiv);
+            contentDiv.appendChild(categoryLabel);
+
+            eventDiv.appendChild(contentDiv);
+            timelineContainer.appendChild(eventDiv);
+
+            // Add click handler to toggle description
+            contentDiv.addEventListener('click', function() {
+                // Close other open events
+                document.querySelectorAll('.timeline-content.active').forEach(el => {
+                    if (el !== this) el.classList.remove('active');
+                });
+                // Toggle current event
+                this.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
