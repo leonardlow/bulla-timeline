@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ka Moʻokūʻauhau Aliʻi — The Royal Lineage</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            color: #00d4ff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .subtitle { font-size: 1em; color: #a0a0a0; margin-bottom: 10px; }
+
+        .tagline {
+            font-size: 0.9em;
+            color: #a0a0a0;
+            max-width: 650px;
+            margin: 15px auto;
+            line-height: 1.6;
+        }
+
+        .era-section { margin-bottom: 50px; }
+
+        .era-header {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #ffd93d;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 217, 61, 0.4);
+            border-radius: 5px;
+            background: rgba(255, 217, 61, 0.05);
+        }
+
+        .ancestor-card {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border-left: 3px solid #00d4ff;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .ancestor-card:hover {
+            background: rgba(0, 212, 255, 0.08);
+            transform: translateX(5px);
+        }
+
+        .ancestor-card.divine { border-left-color: #ffd700; }
+        .ancestor-card.mythological { border-left-color: #ff8c94; }
+        .ancestor-card.ancient { border-left-color: #a8e6cf; }
+        .ancestor-card.royal { border-left-color: #4ecdc4; }
+        .ancestor-card.family { border-left-color: #ff6b6b; }
+
+        .ancestor-year {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .ancestor-lifespan {
+            font-size: 0.8em;
+            color: #a0a0a0;
+            margin-top: 3px;
+        }
+
+        .ancestor-island {
+            font-size: 0.8em;
+            color: #4ecdc4;
+            margin-top: 5px;
+        }
+
+        .ancestor-badge {
+            display: inline-block;
+            font-size: 0.65em;
+            padding: 3px 7px;
+            border-radius: 3px;
+            margin-top: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+        }
+
+        .ancestor-card.divine .ancestor-badge { background: rgba(255, 215, 0, 0.2); color: #ffd700; }
+        .ancestor-card.mythological .ancestor-badge { background: rgba(255, 140, 148, 0.2); color: #ff8c94; }
+        .ancestor-card.ancient .ancestor-badge { background: rgba(168, 230, 207, 0.2); color: #a8e6cf; }
+        .ancestor-card.royal .ancestor-badge { background: rgba(78, 205, 196, 0.2); color: #4ecdc4; }
+        .ancestor-card.family .ancestor-badge { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
+
+        .ancestor-name {
+            font-size: 1.05em;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .ancestor-title {
+            font-size: 0.85em;
+            color: #ffd93d;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        .ancestor-desc {
+            font-size: 0.85em;
+            color: #c0c0c0;
+            line-height: 1.5;
+        }
+
+        .connector {
+            text-align: left;
+            padding-left: 20px;
+            color: rgba(0, 212, 255, 0.4);
+            font-size: 1.2em;
+            margin: -5px 0;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85em;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #a0a0a0;
+            font-size: 0.9em;
+        }
+
+        footer a { color: #4ecdc4; text-decoration: none; font-weight: 600; }
+
+        @media (max-width: 768px) {
+            .ancestor-card { grid-template-columns: 100px 1fr; gap: 12px; }
+            h1 { font-size: 1.6em; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Ka Moʻokūʻauhau Aliʻi</h1>
+        <p class="subtitle">The Royal Lineage — From the Gods to Generation 10</p>
+        <p class="tagline">
+            In Hawaiian tradition, there is no separation between mythology and genealogy.
+            The aliʻi traced their lineage continuously and unbroken from the gods to themselves —
+            this was the source of their mana (spiritual power). This is the royal lineage of the Low family,
+            spanning from Kāne (57 BC) through 2,068 years to Generation 10 today.
+            <br><br>
+            The names here echo across the entire Polynesian triangle — Hawaii, Aotearoa (New Zealand), and Samoa —
+            because they share the same ancestral roots. Kāne is Tāne in Māori. Laka is Raka.
+            Your ancestors did not just come from one place. They came from everywhere the ocean touches. 🌊
+        </p>
+    </header>
+
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#ffd700"></div><span>Divine (Gods)</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ff8c94"></div><span>Mythological (BC–500 CE)</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#a8e6cf"></div><span>Ancient Aliʻi (500–1200 CE)</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#4ecdc4"></div><span>Royal Aliʻi (1200–1756 CE)</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div><span>Family (1756–Today)</span></div>
+    </div>
+
+    <div id="lineage"></div>
+
+    <footer>
+        <a href="index.html">← Timeline</a> &nbsp;|&nbsp;
+        <a href="family-tree.html">Family Tree</a>
+        <p style="margin-top:15px; color: #4ecdc4; font-style: italic;">
+            "I ka wā ma mua, ka wā ma hope." — The future is found in the past.
+        </p>
+    </footer>
+</div>
+
+<script>
+const ancestors = [
+    // DIVINE ERA
+    {
+        year: -83, lifespan: "0083 BC", name: "Ukinaopiopio", title: "",
+        island: "Primordial", desc: "Among the earliest figures in the divine genealogy, preceding the Hawaiian gods in the lineage chain.",
+        type: "divine"
+    },
+    {
+        year: -57, lifespan: "0057 BC", name: "Kāne",
+        title: "God of Creation, Fresh Water, and Forests",
+        island: "All of Hawaiʻi",
+        desc: "Kāne is one of the four major Hawaiian gods and the progenitor of the Hawaiian people. He is the god of creation, sunlight, fresh water, and forests. In Hawaiian cosmology, Kāne created the first man, Hulihonua, from red clay. Every drop of fresh water, every shaft of sunlight, every living forest carries his presence. The aliʻi traced their divine mana directly through his line.",
+        type: "divine"
+    },
+    {
+        year: -43, lifespan: "0043 BC", name: "Hulihonua",
+        title: "The First Man",
+        island: "All of Hawaiʻi",
+        desc: "Hulihonua means 'earth turner' — he is the first man in Hawaiian mythology, created by Kāne from red clay. He is the Hawaiian equivalent of Adam. His name carries the story of humanity's beginning in the Hawaiian worldview, and all who trace their lineage through him carry the blood of the very first people.",
+        type: "mythological"
+    },
+    {
+        year: -29, lifespan: "0029 BC", name: "Laka",
+        title: "God of Hula, Forests, and Vegetation",
+        island: "All of Hawaiʻi",
+        desc: "Laka is the god of hula, forests, and vegetation — considered a son of Kāne. Every hula performance, every chant, every offering of maile lei honors Laka. The hula is not mere dance; it is a sacred practice carrying the stories and genealogies of the aliʻi. To carry Laka's lineage is to carry the tradition of hula itself.",
+        type: "mythological"
+    },
+    {
+        year: 357, lifespan: "0357–0450 CE", name: "Luanuʻu Ka Mua",
+        title: "Aliʻi of Hawaiʻi",
+        island: "Hawaiʻi Island",
+        desc: "Luanuʻu Ka Mua (357–450 CE) bridges the mythological era with the historical Polynesian migrations. His lineage connects the divine ancestry of Kāne through to the first great chiefs who would establish royal dynasties across the Hawaiian islands.",
+        type: "mythological"
+    },
+    // ANCIENT ALII ERA
+    {
+        year: 694, lifespan: "0694 CE", name: "Nanakaoko",
+        title: "Aliʻi of Hawaiʻi",
+        island: "Hawaiʻi Island",
+        desc: "Nanakaoko (694 CE) represents the early historical aliʻi lineage following the first Polynesian settlements in Hawaii. His line carries the royal bloodline forward through the early Hawaiian Kingdom period.",
+        type: "ancient"
+    },
+    {
+        year: 1060, lifespan: "1060 CE", name: "Laʻau",
+        title: "Aliʻi",
+        island: "Samoa → Hawaiʻi",
+        desc: "Laʻau (1060 CE) is documented as originating from Samoa — confirming the Polynesian migration roots of your family. His presence in the genealogy bridges the Samoan homeland to the Hawaiian Islands, marking the voyaging tradition that brought your ancestors across thousands of miles of open ocean.",
+        type: "ancient"
+    },
+    {
+        year: 1075, lifespan: "1075–1155 CE", name: "Piliʻi-kaaiea",
+        title: "1st Aliʻi Nui of Hawaiʻi Island",
+        island: "Samoa → Hawaiʻi Island",
+        desc: "Piliʻi-kaaiea (1075–1155 CE) is the 1st Aliʻi Nui of Hawaiʻi Island — the first paramount chief of the Big Island in the documented historical record. Born of Samoan lineage, he establishes the chiefly dynasty that will rule Hawaiʻi Island for centuries. All subsequent Hawaiʻi Island royalty trace their authority back to him.",
+        type: "ancient"
+    },
+    {
+        year: 1135, lifespan: "1135–1185 CE", name: "Kukohou",
+        title: "2nd Aliʻi Nui of Hawaiʻi Island",
+        island: "Hawaiʻi Island",
+        desc: "Kukohou (1135–1185 CE) is the 2nd Aliʻi Nui of Hawaiʻi Island, son of Piliʻi-kaaiea. He continues the royal dynasty on the Big Island, consolidating chiefly authority across the island's districts.",
+        type: "ancient"
+    },
+    {
+        year: 1195, lifespan: "1195–1215 CE", name: "Kaniuhu",
+        title: "3rd Aliʻi Aimoku of Hawaiʻi Island",
+        island: "Hawaiʻi Island",
+        desc: "Kaniuhu (1195–1215 CE) is the 3rd Aliʻi Aimoku of Hawaiʻi Island. His short reign continues the Pili dynasty — the royal line descended from Samoan ancestors that governs the Big Island.",
+        type: "ancient"
+    },
+    // ROYAL ALII ERA
+    {
+        year: 1220, lifespan: "1220–1285 CE", name: "Aliʻi Aimoku Kalapanakuʻioi'omoa",
+        title: "Aliʻi Aimoku of Hawaiʻi Island",
+        island: "Hawaiʻi Island",
+        desc: "Kalapanakuʻioi'omoa (1220–1285 CE) continues the royal Pili dynasty on Hawaiʻi Island. By this era the Hawaiian Kingdom is well established with sophisticated systems of governance, land division (ahupuaʻa), and chiefly protocol.",
+        type: "royal"
+    },
+    {
+        year: 1220, lifespan: "1220 CE", name: "Hualani",
+        title: "Chiefess of Molokaʻi",
+        island: "Molokaʻi",
+        desc: "Hualani is a Chiefess of Molokaʻi — confirming your family's royal lineage spans yet another island. Molokaʻi was known as a stronghold of kahunas (priests and healers) and carried deep spiritual significance in the Hawaiian world.",
+        type: "royal"
+    },
+    {
+        year: 1304, lifespan: "1304 CE", name: "Moʻi Kuaiwa VIII",
+        title: "Sovereign King of Hawaiʻi Island (reigned 1345–1375)",
+        island: "Hawaiʻi Island",
+        desc: "Moʻi Kuaiwa VIII (1304 CE) reigns as sovereign king of Hawaiʻi Island from 1345 to 1375. Son of Kalaunuiohua, he is remembered as a peaceful and wise ruler — a deliberate contrast to his warlike father. He is the earliest confirmed ancestor in your family's documented historical royal lineage.",
+        type: "royal"
+    },
+    {
+        year: 1395, lifespan: "1395–1465 CE", name: "Kauholanuimahu",
+        title: "10th Aliʻi Aimoku of Hawaiʻi Island",
+        island: "Maui & Hawaiʻi Island",
+        desc: "Kauholanuimahu (1395–1465 CE) is the 10th Aliʻi Aimoku of Hawaiʻi Island, born on Maui. He maintains royal residences on both islands and builds the famous fishpond at Keoneoio, Maui — still standing today. When rebellion threatened his rule, he sailed back from Maui, crushed it, and reclaimed his kingdom.",
+        type: "royal"
+    },
+    {
+        year: 1420, lifespan: "1420 CE", name: "Kahekili I",
+        title: "13th Moʻi of Maui",
+        island: "Maui",
+        desc: "Kahekili I (1420 CE) is the 13th Moʻi (paramount chief) of Maui. His name — meaning 'the thunder' — echoes through Maui's royal history. The name Kahekili will be carried by future great chiefs of Maui, including the last king of Maui who rivaled Kamehameha I himself.",
+        type: "royal"
+    },
+    {
+        year: 1430, lifespan: "1430 CE", name: "Kahakuakane",
+        title: "Moʻi, Ruling Chief of Kauaʻi",
+        island: "Kauaʻi",
+        desc: "Kahakuakane (1430 CE) is the Moʻi — ruling chief — of Kauaʻi. His presence confirms your royal lineage spans the entire Hawaiian archipelago: Kauaʻi in the northwest, Maui in the center, Molokaʻi, and Hawaiʻi Island in the southeast. The aliʻi intermarried across islands to unite their mana.",
+        type: "royal"
+    },
+    {
+        year: 1435, lifespan: "1435–1495 CE", name: "Chief Līloa",
+        title: "Moʻi of Waipio Valley, Hawaiʻi Island",
+        island: "Waipio Valley, Hawaiʻi Island",
+        desc: "Chief Līloa (1435–1495 CE) rules from the sacred Waipio Valley — one of the most spiritually powerful places in all Hawaii. He is described as 'the common progenitor of royal dynasties from whom all pre- and post-unification ruling aliʻi derived their genealogy and mana — all kings and queens of the Kingdom of Hawaii could point to him as their ancestor.' His son ʻUmi-a-Līloa will unify Hawaiʻi Island.",
+        type: "royal"
+    },
+    {
+        year: 1460, lifespan: "1460 CE", name: "Moʻi Piʻilani I",
+        title: "15th King of Maui — The Greatest Maui Chief",
+        island: "Lahaina & Hāna, Maui",
+        desc: "Moʻi Piʻilani I (1460 CE) is the 15th Moʻi of Maui and one of the two greatest monarchs in Maui's history. He unifies the entire island of Maui, builds the Piʻilanihale Heiau in Hāna (the largest heiau in all Hawaii), and constructs the Alaloa — the King's Highway that encircles Maui. He is buried at Hāna. His daughter Piʻikea will marry ʻUmi a Līloa, joining the two greatest royal lines in Hawaii.",
+        type: "royal"
+    },
+    {
+        year: 1470, lifespan: "1470–1525 CE", name: "ʻUmi a Līloa I",
+        title: "14th Aliʻi Aimoku of Hawaiʻi Island",
+        island: "Nīnole & Hilo, Hawaiʻi Island",
+        desc: "ʻUmi a Līloa I (born April 7, 1470, Nīnole, Hawaiʻi) rises from humble origins to become the 14th Aliʻi Aimoku of Hawaiʻi Island. He unifies the island, rules from Hamakua through Hilo, and is celebrated as one of the greatest chiefs in Hawaiian history. He marries Piʻikea, daughter of Piʻilani of Maui — uniting the two most powerful royal lines in all of Hawaii. He is a direct ancestor of both your family and Kamehameha I.",
+        type: "royal"
+    },
+    {
+        year: 1500, lifespan: "1500 CE", name: "Piʻikea a Piʻilani",
+        title: "Princess of Maui — Daughter of Piʻilani",
+        island: "Maui → Hilo, Hawaiʻi Island",
+        desc: "Piʻikea a Piʻilani (1500 CE) is the daughter of Piʻilani, greatest king of Maui, and the wife of ʻUmi a Līloa I, unifier of Hawaiʻi Island. Her marriage is the pivotal union that joins the Maui and Hawaiʻi Island royal lines. She dies in Hilo. Through her, your family carries both the Piʻilani line of Maui AND the Līloa line of Hawaiʻi Island.",
+        type: "royal"
+    },
+    {
+        year: 1515, lifespan: "1515 CE", name: "Keawenui-a-Umi",
+        title: "16th Aliʻi Aimoku of Hawaiʻi Island",
+        island: "Hilo, Hawaiʻi Island",
+        desc: "Keawenui-a-Umi (1515 CE), son of ʻUmi a Līloa, seizes power and becomes the 16th Aliʻi Aimoku of Hawaiʻi Island. His reign resets the chiefly lineages of all six Big Island districts — Hilo, Hamakua, Puna, Kaʻū, Kohala, and Kona. Nearly every Hawaiian aliʻi traces their lineage back through his family.",
+        type: "royal"
+    },
+    {
+        year: 1665, lifespan: "1665–1730 CE", name: "Kalanikauleleiaiwinui",
+        title: "Queen of Hawaiʻi Island — House of Keawe",
+        island: "Hawaiʻi Island (buried North Kohala)",
+        desc: "Kalanikauleleiaiwinui (1665–1730 CE) is a Queen of Hawaiʻi Island of the House of Keawe, buried in North Kohala — your family's ancestral homeland. She marries multiple kings including Kaulahea, King of Maui, and Keawe, King of Hawaiʻi. She is the mother of key figures in the royal lineage leading directly to Kamehameha I. Her burial in Kohala places her in the same sacred ground as your ancestor Kapokini.",
+        type: "royal"
+    },
+    {
+        year: 1675, lifespan: "1675–1725 CE", name: "Chief Kaʻuaua a Mahi",
+        title: "Great Chief of Kohala — Mahi Family",
+        island: "Kohala, Hawaiʻi Island",
+        desc: "Chief Kaʻuaua a Mahi (1675–1725 CE) is the son of Mahiolole, the great Kohala chief of the Mahi family. A chief of Kohala — the same district where your ancestor Kapokini will be born just 81 years later. His Kohala roots are the same ground your family has called home for generations, connecting the great royal dynasties to your documented lineage.",
+        type: "royal"
+    },
+    {
+        year: 1695, lifespan: "1695–1767 CE", name: "Keaweʻīkekahialiʻiokamoku II",
+        title: "21st Aliʻi Aimoku — Aliʻi-o-Kohala — Great-Grandfather of Kamehameha I",
+        island: "Kohala, Hawaiʻi Island",
+        desc: "Keaweʻīkekahialiʻiokamoku II reigns as the 21st Aliʻi Aimoku of Hawaiʻi Island and Aliʻi-o-Kohala (Chief of Kohala). He is the FOUNDER of the House of Keawe — the royal house from which all Hawaiian monarchs derive their legitimacy. He is the GREAT-GRANDFATHER of Kamehameha I. He establishes the sacred Hale o Keawe at Puʻuhonua o Hōnaunau. The Big Island is still poetically called 'Moku o Keawe' (Island of Keawe) in his honor. His direct line descends to Kapokini (1756) in North Kohala — your Generation 1.",
+        type: "royal"
+    },
+    // FAMILY ERA
+    {
+        year: 1756, lifespan: "circa 1756 CE", name: "Kapokini",
+        title: "Generation 1 — Your Earliest Documented Family Ancestor",
+        island: "North Kohala, Hawaiʻi Island",
+        desc: "Kapokini (circa 1756 CE), born in North Kohala, is the earliest documented ancestor in your family genealogy (Generation 1). He is the direct descendant of Keaweʻīkekahialiʻiokamoku II and carries 1,813 years of royal and divine lineage from Kāne (57 BC) through to himself. His line will carry forward through ten generations to Kristine Nani, Alissa Alohilani, Brennan Keola, and Levi Laakea today.",
+        type: "family"
+    }
+];
+
+function getEraLabel(type) {
+    switch(type) {
+        case 'divine': return 'Divine';
+        case 'mythological': return 'Mythological';
+        case 'ancient': return 'Ancient Aliʻi';
+        case 'royal': return 'Royal Aliʻi';
+        case 'family': return 'Family';
+        default: return '';
+    }
+}
+
+function getEraHeader(type) {
+    switch(type) {
+        case 'divine': return '⭐ The Divine Era — The Gods (83 BC – 29 BC)';
+        case 'mythological': return '🌊 The Mythological Era — First People & Polynesian Voyagers (29 BC – 1000 CE)';
+        case 'ancient': return '🏝 The Ancient Aliʻi Era — First Chiefs of Hawaiʻi (1060–1300 CE)';
+        case 'royal': return '👑 The Royal Aliʻi Era — Kings & Queens of Hawaiʻi (1300–1756 CE)';
+        case 'family': return '🌺 The Family Era — The Low ʻOhana (1756–Today)';
+        default: return '';
+    }
+}
+
+const lineageDiv = document.getElementById('lineage');
+let currentType = null;
+let currentSection = null;
+
+ancestors.forEach((ancestor, index) => {
+    if (ancestor.type !== currentType) {
+        currentType = ancestor.type;
+        currentSection = document.createElement('div');
+        currentSection.className = 'era-section';
+        const header = document.createElement('div');
+        header.className = 'era-header';
+        header.textContent = getEraHeader(currentType);
+        currentSection.appendChild(header);
+        lineageDiv.appendChild(currentSection);
+    }
+
+    const card = document.createElement('div');
+    card.className = `ancestor-card ${ancestor.type}`;
+
+    const leftCol = document.createElement('div');
+    leftCol.innerHTML = `
+        <div class="ancestor-year">${ancestor.year < 0 ? Math.abs(ancestor.year) + ' BC' : ancestor.year + ' CE'}</div>
+        <div class="ancestor-lifespan">${ancestor.lifespan}</div>
+        ${ancestor.island ? `<div class="ancestor-island">📍 ${ancestor.island}</div>` : ''}
+        <span class="ancestor-badge">${getEraLabel(ancestor.type)}</span>
+    `;
+
+    const rightCol = document.createElement('div');
+    rightCol.innerHTML = `
+        <div class="ancestor-name">${ancestor.name}</div>
+        ${ancestor.title ? `<div class="ancestor-title">${ancestor.title}</div>` : ''}
+        <div class="ancestor-desc">${ancestor.desc}</div>
+    `;
+
+    card.appendChild(leftCol);
+    card.appendChild(rightCol);
+
+    if (index < ancestors.length - 1) {
+        currentSection.appendChild(card);
+        const connector = document.createElement('div');
+        connector.className = 'connector';
+        connector.textContent = '↓';
+        currentSection.appendChild(connector);
+    } else {
+        currentSection.appendChild(card);
+    }
+});
+</script>
+</body>
+</html>
